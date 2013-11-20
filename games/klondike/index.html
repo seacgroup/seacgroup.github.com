@@ -39,7 +39,8 @@
         <script type="text/javascript" src="js/cross-polyfill.js"></script>
         <script type="text/javascript" src="js/SEAC.js"></script>
         <script type="text/javascript" src="js/SEAC/Game/Cards/Klondike.js"></script>
-        <script type="text/javascript">
+        <link type="text/css" rel="stylesheet" href="css/Cards.css" />
+        <script type="text/javascript" defer>
 window.addEventListener( 'load', function ( ) {
     var game = new SEAC.Game.Cards.Klondike( );
     document.querySelector( '#start-new-game' ).addEventListener( 'click', game.newGame, false );
@@ -103,7 +104,6 @@ header button {
 .edgeTop.stacked .card[data-face=""]:hover, .edgeBottom.stacked .card[data-face=""]:hover { margin-bottom: -85pt; }
 .edgeTop.stacked.tight .card[data-face=""]:hover, .edgeBottom.stacked.tight .card[data-face=""]:hover { margin-bottom: -120pt; }
         </style>
-        <link type="text/css" rel="stylesheet" href="css/Cards.css" />
     </head>
     <body>
         <header><button id="go-home">home</button><button id="start-new-game">new game</button></header>
