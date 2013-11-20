@@ -136,7 +136,7 @@
                 lastCard = null,
                 expandCallback = function ( evt ) {
                     if ( evt ) {
-                        if ( evt.srcElement === this ) {
+                        if ( evt.currentTarget === this ) {
                             if ( lastCard )
                                 lastCard.classList.remove( 'expand' );
                             ( lastCard = this ).classList.add( 'expand' );
@@ -302,7 +302,7 @@
                     return n;
                 },
                 openCardMove = function ( evt ) {
-                    var card = ( evt instanceof Event ? evt.srcElement : evt ) || this,
+                    var card = ( evt instanceof Event ? evt.currentTarget : evt ) || this,
                         dataset = card.dataset,
                         face = dataset.face,
                         stack, selected, selectedFace, ds,
