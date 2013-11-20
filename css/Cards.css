@@ -1,0 +1,389 @@
+/* 
+    Document   : Cards
+    Created on : Nov 18, 2013, 2:27:59 AM
+    Author     : Erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.stacked {
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: top;
+}
+.stacked.edgeBottom {
+    vertical-align: bottom;
+}
+
+.stacked.edgeTop span,
+.stacked.edgeBottom span {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+.stacked.edgeBottom span {
+    vertical-align: bottom;
+}
+
+.card-stack {
+    background-image: url(card-stack.png);
+    background-repeat: no-repeat;
+    background-position: 50% 0%;
+    padding: 9px;
+    min-width: 162px;
+    min-height: 162px;
+}
+.flowBottom .card-stack {
+    background-position: 50% 100%;
+}
+
+.card {
+    position: relative;
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: whitesmoke;
+    border: solid 1px darkgoldenrod;
+    border-radius: 10px;
+    margin: 0 5px 5px 0;
+    padding: 0;
+    transition: margin 0.5s;
+}
+
+.stacked .card { margin-right: -85pt; }
+.stacked.tight .card { margin-right: -118pt; }
+.stacked .card:hover, 
+.stacked .card.expand { margin-right: 0pt; }
+
+.edgeTop .card, .edgeBottom .card { display: block; }
+.edgeTop.stacked .card, .edgeBottom.stacked .card { margin-bottom: -85pt; }
+.edgeTop.stacked.tight .card, .edgeBottom.stacked.tight .card { margin-bottom: -120pt; }
+.edgeTop.stacked.tight .card:hover, .edgeBottom.stacked.tight .card:hover { margin-bottom: -85pt; }
+.edgeTop.stacked .card:hover, .edgeBottom.stacked .card:hover, 
+.edgeTop.stacked .card.expand, .edgeBottom.stacked .card.expand { margin-bottom: 0pt; }
+
+.stacked .card:last-child { margin-bottom: 0pt !important; }
+.edgeTop.stacked .card:last-child, .edgeBottom.stacked .card:last-child { margin-bottom: 0pt !important; }
+
+.card>.rank,
+.card>.suit {
+    position: relative;
+    display: block;
+    vertical-align: top;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: transparent;
+    border: none 0px;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    vertical-align: top;
+    text-align: center;
+}
+.edgeTop .card>.rank,
+.edgeTop .card>.suit,
+.edgeBottom .card>.rank,
+.edgeBottom .card>.suit {
+    display: inline-block;
+}
+.card>.rank {
+    background-image: url(ranksheet-50x50y-18c2r.png);
+}
+.card[data-face^="A"]>.rank { background-position: 0px 0px; }
+.card[data-face^="2"]>.rank { background-position: -50px 0px; }
+.card[data-face^="3"]>.rank { background-position: -100px 0px; }
+.card[data-face^="4"]>.rank { background-position: -150px 0px; }
+.card[data-face^="5"]>.rank { background-position: -200px 0px; }
+.card[data-face^="6"]>.rank { background-position: -250px 0px; }
+.card[data-face^="7"]>.rank { background-position: -300px 0px; }
+.card[data-face^="8"]>.rank { background-position: -350px 0px; }
+.card[data-face^="9"]>.rank { background-position: -400px 0px; }
+.card[data-face^="10"]>.rank { background-position: -450px 0px; }
+.card[data-face^="J"]>.rank { background-position: -500px 0px; }
+.card[data-face^="Q"]>.rank { background-position: -550px 0px; }
+.card[data-face^="K"]>.rank { background-position: -600px 0px; }
+.card[data-face^="?"]>.rank { background-position: -650px 0px; }
+
+.card>.suit {
+    background-image: url(suitsheet-50x50y-4c2r.png);
+}
+.card[data-face$="♦"]>.suit { background-position: 0px 0px; }
+.card[data-face$="♣"]>.suit { background-position: -50px 0px; }
+.card[data-face$="♥"]>.suit { background-position: -100px 0px; }
+.card[data-face$="♠"]>.suit { background-position: -150px 0px; }
+
+.card>.face {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: transparent;
+    border: solid 1px darkblue;
+    border-radius: 10px;
+    margin: 0;
+    padding: 0;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    background-origin: content-box;
+    bottom: 50px;
+    left: 50px;
+}
+.edgeTop .card>.face,
+.edgeBottom .card>.face {
+    display: block;
+    bottom: -2px;
+    left: 52px;
+}
+
+.card[data-face="2♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px 0px;
+}
+.card[data-face="3♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -100px;
+}
+.card[data-face="4♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -200px;
+}
+.card[data-face="5♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -300px;
+}
+.card[data-face="6♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -400px;
+}
+.card[data-face="7♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -500px;
+}
+.card[data-face="8♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -600px;
+}
+.card[data-face="9♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -700px;
+}
+.card[data-face="10♦"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: 0px -800px;
+}
+
+.card[data-face="2♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px 0px;
+}
+.card[data-face="3♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -100px;
+}
+.card[data-face="4♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -200px;
+}
+.card[data-face="5♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -300px;
+}
+.card[data-face="6♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -400px;
+}
+.card[data-face="7♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -500px;
+}
+.card[data-face="8♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -600px;
+}
+.card[data-face="9♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -700px;
+}
+.card[data-face="10♣"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -100px -800px;
+}
+
+.card[data-face="2♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px 0px;
+}
+.card[data-face="3♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -100px;
+}
+.card[data-face="4♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -200px;
+}
+.card[data-face="5♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -300px;
+}
+.card[data-face="6♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -400px;
+}
+.card[data-face="7♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -500px;
+}
+.card[data-face="8♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -600px;
+}
+.card[data-face="9♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -700px;
+}
+.card[data-face="10♥"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -200px -800px;
+}
+
+.card[data-face="2♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px 0px;
+}
+.card[data-face="3♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -100px;
+}
+.card[data-face="4♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -200px;
+}
+.card[data-face="5♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -300px;
+}
+.card[data-face="6♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -400px;
+}
+.card[data-face="7♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -500px;
+}
+.card[data-face="8♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -600px;
+}
+.card[data-face="9♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -700px;
+}
+.card[data-face="10♠"]>.face {
+    background-image: url(nonfacesheet-100x100y-4c9r.png);
+    background-position: -300px -800px;
+}
+
+.card[data-face="K♦"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -300px 0px;
+}
+.card[data-face="Q♦"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -300px -100px;
+}
+.card[data-face="J♦"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -300px -200px;
+}
+.card[data-face="A♦"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -300px -300px;
+}
+.card[data-face="?♦"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -300px -400px;
+}
+
+.card[data-face="K♣"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -200px 0px;
+}
+.card[data-face="Q♣"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -200px -100px;
+}
+.card[data-face="J♣"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -200px -200px;
+}
+.card[data-face="A♣"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -200px -300px;
+}
+.card[data-face="?♣"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -200px -400px;
+}
+
+.card[data-face="K♥"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -100px 0px;
+}
+.card[data-face="Q♥"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -100px -100px;
+}
+.card[data-face="J♥"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -100px -200px;
+}
+.card[data-face="A♥"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -100px -300px;
+}
+.card[data-face="?♥"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: -100px -400px;
+}
+
+.card[data-face="K♠"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: 0px 0px;
+}
+.card[data-face="Q♠"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: 0px -100px;
+}
+.card[data-face="J♠"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: 0px -200px;
+}
+.card[data-face="A♠"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: 0px -300px;
+}
+.card[data-face="?♠"]>.face {
+    background-image: url(facesheet-100x100y-4c5r.png);
+    background-position: 0px -400px;
+}
+
+.card[data-face=""] {
+    background-image: url(backface-100x100y.png);
+    background-repeat: repeat;
+    background-position: 50% 50%;
+}
+.card[data-face=""]>* {
+    display: none !important;
+}
+.card.selected:not([data-face=""]) {
+    background-color: palegoldenrod;
+}
