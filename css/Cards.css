@@ -95,6 +95,14 @@
 .card>.rank {
     background-image: url(ranksheet-50x50y-18c2r.png);
 }
+.card[data-face$="♦"]>.rank,
+.card[data-face$="♥"]>.rank {
+    background-image: url(ranksheet-red-50x50y-18c2r.png);
+}
+.card[data-face$="♣"]>.rank,
+.card[data-face$="♠"]>.rank {
+    background-image: url(ranksheet-black-50x50y-18c2r.png);
+}
 .card[data-face^="A"]>.rank { background-position: 0px 0px; }
 .card[data-face^="2"]>.rank { background-position: -50px 0px; }
 .card[data-face^="3"]>.rank { background-position: -100px 0px; }
@@ -386,4 +394,8 @@
 }
 .card.selected:not([data-face=""]) {
     background-color: palegoldenrod;
+}
+.card.selected>.rank,
+.card.selected>.suit {
+    background-position-y: -50px !important;
 }
