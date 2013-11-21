@@ -408,6 +408,7 @@
                                 //  1) can move 1 or more incremental cards
                                 //  2) suit must NOT match and rank must be incr
                                 //  3) source card must be incr and alternating suits
+                                //  4) if source is from foundation: make sure we are moving only the last card
                                 if ( card === stack.lastElementChild
                                         && color !== _deckSuitColors[selectedFace.slice( -1 )]
                                         && ( t = _rankStacking[rank] )
@@ -420,6 +421,10 @@
                                         } else if ( ( t = selected.parentElement ).classList.contains( 'card-stack' ) ) {
                                             t.addEventListener( 'click', openCardMove, false );
                                         }
+                                    } else if ( t.parentElement === foundationContainer && 
+                                            ( selectedCardList.length > 1 || selectedFace.slice( 0, -1 ) === 'A' ) ) {
+                                        // this is illegal, only one card at a time can be moved from foundation
+                                        return deselectAllCards( );
                                     }
                                     moveCards( selectedCardList, 0, stack, null, selectedCardList.length, null, false, true );
                                     // remove potential stack listener because now we have cards there to listen
@@ -439,8 +444,14 @@
                         if ( ( i = indexOf.call( j = stack.children, card ) ) < 0 )
                             throw 'This should never happen, inTableau return stack that does not contain the card';
                         selectCard( card, true );
+                    } else if ( ( stack = inFoundation( card ) ) ) {
+                        // is in foundation: single (last) card ONLY selection allowed
+                        if ( stack.lastElementChild !== card 
+                                || face.slice( 0, -1 ) === 'A' )
+                            return deselectAllCards( );
+                        selectCard( card, true );
                     } else {
-                        // assume is in waste or foundation: single (last) card selection allowed
+                        // assume is in waste
                         selectCard( card, true );
                     }
                 },

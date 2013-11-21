@@ -146,6 +146,7 @@ nav input {
 }
 #game-title {
     float: left;
+    margin-top: 8px;
 }
 #author-message {
     float: right;
@@ -174,4 +175,7 @@ nav input[readonly] {
 input.dash-number {
     text-align: right;
 }
-
+#game-info {
+    display: block;
+    font-size: 10px;
+}
