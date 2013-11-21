@@ -116,10 +116,10 @@
 .edgeTop.stacked .card[data-face=""], .edgeBottom.stacked .card[data-face=""] { margin-bottom: -130px; }
 .edgeTop.stacked.tight .card, .edgeBottom.stacked.tight .card { margin-bottom: -160px; }
 .edgeTop.stacked.tight .card:not([data-face=""]):hover, .edgeBottom.stacked.tight .card:not([data-face=""]):hover { margin-bottom: -113px; }
-.edgeTop.flowUp.expandLeft.stacked.tight .card, .edgeBottom.flowUp.expandLeft.stacked.tight .card { margin-bottom: -165.5px; }
-.edgeTop.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165.5px; margin-left: -50px; }
-.edgeTop.flowUp.expandRight.stacked.tight .card, .edgeBottom.flowUp.expandRight.stacked.tight .card { margin-bottom: -165.5px; }
-.edgeTop.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165.5px; margin-left: 50px; }
+.edgeTop.flowUp.expandLeft.stacked.tight .card, .edgeBottom.flowUp.expandLeft.stacked.tight .card { margin-bottom: -165px; }
+.edgeTop.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165px; margin-left: -50px; }
+.edgeTop.flowUp.expandRight.stacked.tight .card, .edgeBottom.flowUp.expandRight.stacked.tight .card { margin-bottom: -165px; }
+.edgeTop.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165px; margin-left: 102px; }
 .edgeTop.stacked .card:not([data-face=""]):hover, .edgeBottom.stacked .card:not([data-face=""]):hover, 
 .edgeTop.stacked .card.expand:not([data-face=""]), .edgeBottom.stacked .card.expand:not([data-face=""]) { margin-bottom: 0; }
 
