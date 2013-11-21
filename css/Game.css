@@ -138,6 +138,7 @@ nav input {
     color: #593E1A;
 }
 #game-dash {
+    height: 52px;
     top: 0px;
     border-bottom-style: solid;
     padding: 0 10px;
