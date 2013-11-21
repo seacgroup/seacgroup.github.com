@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Card Games</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="js/cross-polyfill.js"></script>
+        <script type="text/javascript" src="js/SEAC.js"></script>
+        <script type="text/javascript">
+window.addEventListener( 'load', function ( ) {
+    var countdownDefault = 0.5 * 60 * 1000,
+        countdown = 0,
+        countdownTimer = null,
+        formatCountdown = function ( countdown ) {
+            return ( ( countdown / 1000 ) | 0 ) + ' seconds';
+        },
+        selectedGameURL = null,
+        body = document.body,
+        gameButtons = body.querySelectorAll( '.game-choice' ),
+        gameTitleText = body.querySelector( '#game-title' ),
+        gameCountdown = body.querySelector( '#game-countdown' ),
+        gameStartButton = body.querySelector( '#game-starting-now' ),
+        startGame = function ( ) {
+            gameCountdown.textContent = formatCountdown( countdown = Math.max( 0, countdown - 1000 ) );
+            clearInterval( countdownTimer );
+            countdownTimer = null;
+            location.href = selectedGameURL;
+        },
+        selectGame = function ( gameTitle, gameUrl ) {
+            gameStartButton.removeEventListener( 'click', startGame );
+            countdown = countdownDefault,
+            countdownTimer = null;
+            gameTitleText.textContent = gameTitle;
+            gameCountdown.textContent = formatCountdown( countdown );
+            if ( ( selectedGameURL = gameUrl ) ) {
+                gameStartButton.addEventListener( 'click', startGame, false );
+                countdownTimer = setInterval( function ( ) {
+                    gameCountdown.textContent = formatCountdown( countdown = Math.max( 0, countdown - 1000 ) );
+                    if ( ! countdown )
+                        startGame( );
+                }, 1000 );
+                body.classList.add( 'game-selected' );
+            }
+        };
+    
+    [].forEach.call( gameButtons, function ( button ) {
+        button.addEventListener( 'click', function ( ) {
+            selectGame( button.textContent, button.dataset.url );
+        }, false );
+    } );
+}, false );
+        </script>
+        <style type="text/css">
+root { 
+    display: block;
+}
+
+body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0px;
+    border: none 0px;
+    text-align: center;
+    background-image: url(css/bkgnd-blackjack-green1.jpg);
+    background-repeat: repeat;
+    overflow: hidden;
+    overflow-y: visible;
+    box-sizing: border-box;
+    font-size: 28pt;
+    color: white;
+    text-shadow: 2px 2px midnightblue;
+}
+
+button {
+    font-size: 18pt;
+    font-weight: bolder;
+    height: 40pt;
+    padding: 0 20px;
+    margin: 10px;
+}
+#content {
+    margin-top: 10%;
+}
+#answer, 
+#game-starting, 
+#game-starting-now {
+    visibility: hidden;
+    margin-top: 20px;
+}
+
+.game-selected #question,
+.game-selected #choices {
+    display: none;
+}
+.game-selected #answer, 
+.game-selected #game-starting, 
+.game-selected #game-starting-now {
+    visibility: visible !important;
+}
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <div id="question">Do You Want To Play A Game?</div>
+            <div id="choices"><button data-url="games/klondike" class="game-choice">Klondike</button></div>
+            <div id="answer">Of Course You Do!</div>
+            <div id="game-starting"><span id="game-title">Game</span> Starting In <time id="game-countdown">...</time></div>
+            <div><button id="game-starting-now">Start Now!</button></div>
+        </div>
+    </body>
+</html>

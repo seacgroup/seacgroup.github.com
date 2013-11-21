@@ -45,6 +45,18 @@
                 _uidFaceLookup = {},
                 _cardOpenList = [],
                 _cardOpenHandlers = [],
+                registerCardOpenHandler = function ( callback ) {
+                    if ( _cardOpenHandlers.indexOf( callback ) < 0 )
+                        _cardOpenHandlers.push( callback );
+                },
+                unregisterCardOpenHandler = function ( callback ) {
+                    var i = _cardOpenHandlers.indexOf( callback );
+                    if ( i >= 0 )
+                        _cardOpenHandlers.splice( i, 1 );
+                },
+                unregisterCardOpenHandlerAll = function ( ) {
+                    _cardOpenHandlers.splice( 0 );
+                },
                 cardOpenToggle = function ( card, open, manageFace ) {
                     var data, t;
                     if ( ( ! ( card instanceof HTMLElement ) && ! ( ( card = _uidCardLookup[card] ) instanceof HTMLElement ) ) || ! ( data = card.dataset ).uid )
@@ -54,18 +66,20 @@
 
                     if ( ( open = ( open == null ) ? ! ( data.face && parseBool( data.open ) ) : parseBool( open ) ) ) {
                         data.open = true;
-                        if ( _cardOpenList.indexOf( card ) < 0 )
-                            _cardOpenList.push( card );
                         // turn card up (open card)
                         if ( manageFace ) {
                             if ( ! ( data.face = _uidFaceLookup[data.uid] || '' ) )
                                 throw "cardOpenToggle: attempt to open faceless card(uid=" + data.uid + ')';
                         }
+                        if ( _cardOpenList.indexOf( card ) < 0 )
+                            _cardOpenList.push( card );
                     } else {
                         // turn card down
-                        if ( manageFace )
-                            data.face = '';
                         data.open = false;
+                        if ( manageFace ) {
+                            data.face = '';
+                            
+                        }
                         if ( ( t = _cardOpenList.indexOf( card ) ) >= 0 )
                             _cardOpenList.splice( t, 1 );
                     }
@@ -301,9 +315,8 @@
                     }
                     return n;
                 },
-                openCardMove = function ( evt ) {
-                    var card = ( evt instanceof Event ? evt.currentTarget : evt ) || this,
-                        dataset = card.dataset,
+                playCards = function ( card ) {
+                    var dataset = card.dataset,
                         face = dataset.face,
                         stack, selected, selectedFace, ds,
                         rank, suit, color, i, j, t;
@@ -431,6 +444,10 @@
                         selectCard( card, true );
                     }
                 },
+                openCardMove = function ( evt ) {
+                    var card = ( evt instanceof Event ? evt.currentTarget : evt ) || this;
+                    return playCards( card );
+                },
                 openCardAutoMove = function ( ) {
                     var stackList, stack, ds, face, t;
                     // check if card is Ace: move to first open foundation
@@ -485,13 +502,27 @@
                     tableauContainer = document.querySelector( '#tableau' );
                     foundationStackList = foundationContainer.querySelectorAll( '.card-stack' );
                     tableauStackList = tableauContainer.querySelectorAll( '.card-stack' );
-
+                    
                     newGame( );
+//                    registerCardOpenHandler( function ( card ) {
+//                        var data = card && card.dataset,
+//                            face = ( data && data.face ) || '',
+//                            s, t;
+//                        if ( face.slice( 0, -1 ) === 'A' && ( t = foundationContainer.querySelector( '.card-stack:empty' ) ) ) {
+//                            s = selectedCardList.splice( 0 );
+//                            selectCard( card, true );
+//                            openCardMove( t );
+//                            ArrayProto.push.apply( selectedCardList, s );
+//                        }
+//                    } );
 //                    body.addEventListener( 'click', expandCallback, false );
                 };
             
             Klondike.prototype = {
-                newGame: newGame
+                newGame: newGame,
+                registerCardOpenHandler: registerCardOpenHandler,
+                unregisterCardOpenHandler: unregisterCardOpenHandler,
+                unregisterCardOpenHandlerAll: unregisterCardOpenHandlerAll
             };
             return Klondike;
         } )( ) );

@@ -1,0 +1,160 @@
+/* 
+    Document   : Game.css
+    Created on : Nov 21, 2013, 8:11:16 AM
+    Author     : Erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* game frame default theme */
+root {
+    position: absolute;
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+}
+
+body {
+    position: absolute;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none 0px;
+    text-align: center;
+    overflow: hidden;
+}
+
+#game-container,
+nav {
+    position: absolute;
+    display: block;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 5px;
+    overflow: hidden;
+}
+#game-container {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    padding: 60px 0;
+    box-sizing: border-box;
+}
+.game-content {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    overflow: hidden;
+    min-width: 8px;
+}
+#game-content {
+    overflow: visible;
+    height: auto;
+    max-height: none;
+    margin-left: 15px;
+}
+#game-content-scroll, 
+#game-content-scroll>#game-content-scroll-elevator {
+    display: inline-block;
+    overflow: visible;
+}
+#game-content-scroll {
+    background: rgba(255,255,255,0.5);
+    background: -moz-linear-gradient(left, rgba(255,255,255,0.5) 0%, rgba(237,237,237,0.5) 50%, rgba(246,246,246,0.5) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,0.5)), color-stop(50%, rgba(237,237,237,0.5)), color-stop(100%, rgba(246,246,246,0.5)));
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0.5) 0%, rgba(237,237,237,0.5) 50%, rgba(246,246,246,0.5) 100%);
+    background: -o-linear-gradient(left, rgba(255,255,255,0.5) 0%, rgba(237,237,237,0.5) 50%, rgba(246,246,246,0.5) 100%);
+    background: -ms-linear-gradient(left, rgba(255,255,255,0.5) 0%, rgba(237,237,237,0.5) 50%, rgba(246,246,246,0.5) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,0.5) 0%, rgba(237,237,237,0.5) 50%, rgba(246,246,246,0.5) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6', GradientType=1 );
+    filter: alpha(opacity=33);
+    -moz-opacity: 0.33;
+    opacity: 0.33;
+    border: outset 1px;
+    border-radius: 5px;
+    float: right;
+    margin-right: 5px;
+    padding: 1px 0px;
+    box-sizing: border-box;
+    visibility: hidden;
+}
+#game-content-scroll.overflow-scroll {
+    visibility: visible;
+}
+#game-content-scroll-elevator {
+    position: relative;
+    width: 10px;
+    height: 10%;
+    margin: -2px;
+    background: #f2f6f8;
+    background: -moz-linear-gradient(left, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, #f2f6f8), color-stop(50%, #d8e1e7), color-stop(51%, #b5c6d0), color-stop(100%, #e0eff9));
+    background: -webkit-linear-gradient(left, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%);
+    background: -o-linear-gradient(left, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%);
+    background: -ms-linear-gradient(left, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%);
+    background: linear-gradient(to right, #f2f6f8 0%, #d8e1e7 50%, #b5c6d0 51%, #e0eff9 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9', GradientType=1 );
+    border: inset 1px;
+    border-radius: 7px;
+    z-index: 20001;
+}
+#game-content-scroll:hover {
+    filter:alpha(opacity=67); /* IE */
+    -moz-opacity:0.67; /* Mozilla */
+    opacity: 0.67; /* CSS3 */
+}
+nav {
+    height: 48px;
+    z-index: 20000;
+    background-color: #79BEDB;
+    font-size: 14px;
+    color: #593E1A;
+    border: none 2px;
+    border-radius: 0px;
+    border-color: #6B78B4;
+}
+#game-dash {
+    top: 0px;
+    border-bottom-style: solid;
+}
+#game-controls {
+    bottom: 0px;
+    border-top-style: solid;
+}
+section.vertical {
+    
+}
+nav button {
+    font-size: 18px;
+    font-weight: bolder;
+    height: 40px;
+    padding: 0 20px;
+}
+nav input[readonly] {
+    margin: 0px;
+    pading: 0px;
+    background-color: transparent;
+    background-image: none;
+    border: none 0px;
+    outline: none 0px;
+}
+input.dash-number {
+    text-align: right;
+}
+

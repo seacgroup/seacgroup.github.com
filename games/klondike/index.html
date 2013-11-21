@@ -38,7 +38,8 @@
         <base href="../.." />
         <script type="text/javascript" src="js/cross-polyfill.js"></script>
         <script type="text/javascript" src="js/SEAC.js"></script>
-        <script type="text/javascript" src="js/SEAC/Game/Cards/Klondike.js"></script>
+        <script type="text/javascript" src="js/games/Klondike.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/Game.css" />
         <link type="text/css" rel="stylesheet" href="css/Cards.css" />
         <script type="text/javascript" defer>
 window.addEventListener( 'load', function ( ) {
@@ -48,143 +49,115 @@ window.addEventListener( 'load', function ( ) {
 } );
         </script>
         <style type="text/css">
-root { 
-    display: block;
-}
-
-body {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0px;
-    border: none 0px;
-    text-align: center;
+#game-container {
     background-image: url(css/bkgnd-blackjack-green1.jpg);
     background-repeat: repeat;
-    overflow: hidden;
-    overflow-y: visible;
-    box-sizing: border-box;
 }
-
-header {
-    position: relative;
-    padding: 5px;
-    z-index: 20000;
-    height: 50px;
-    background-color: #552277;
-    font-size: 14pt;
-    color: white;
-    border-bottom: solid 1px black;
-}
-header button {
-    font-size: 18pt;
-    font-weight: bolder;
-    height: 40pt;
-    padding: 0 20px;
-}
-
 #upper {
+    position: relative;
     text-align: center;
-    bottom: 60%;
+    margin-top: 52px;
     width: 100%;
-    position: absolute;
+    z-index: 18000;
 }
 #foundation {
+    position: relative;
     display: inline-block;
 }
 #tableau {
+    position: relative;
     text-align: center;
-    top: 40%;
-    margin-top: 10pt;
+    margin-top: 10px;
     width: 100%;
-    position: absolute;
 }
 
-.edgeTop.stacked .card[data-face=""]:hover, .edgeBottom.stacked .card[data-face=""]:hover { margin-bottom: -85pt; }
-.edgeTop.stacked.tight .card[data-face=""]:hover, .edgeBottom.stacked.tight .card[data-face=""]:hover { margin-bottom: -120pt; }
         </style>
     </head>
     <body>
-        <header><button id="go-home">home</button><button id="start-new-game">new game</button></header>
-        <div id="upper" class="stacked tight edgeBottom">
-            <span id="deck" class="card-stack"></span>
-            <span id="waste" class="card-stack"></span>
-            <span style="width: 136pt;"></span>
-            <span id="foundation">
-                <span class="card-stack"></span>
-                <span class="card-stack"></span>
-                <span class="card-stack"></span>
-                <span class="card-stack"></span>
-            </span>
-        </div>
-        <div id="tableau" class="stacked edgeTop">
-            <span class="card-stack">
-                <div class="card" data-face="A&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="2&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="3&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="4&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="5&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="6&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="7&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="8&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="9&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="10&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="J&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="Q&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="K&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="A&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="2&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="3&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="4&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="5&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="6&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="7&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="8&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="9&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="10&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="J&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="Q&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="K&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="A&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="2&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="3&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="4&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="5&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="6&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="7&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="8&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="9&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="10&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="J&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="Q&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="K&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="A&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="2&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="3&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="4&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="5&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="6&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="7&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="8&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="9&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-            <span class="card-stack">
-                <div class="card" data-face="10&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="J&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="Q&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-                <div class="card" data-face="K&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
-            </span>
-        </div>
+        <nav id="game-dash"><div id="game-score"><label>score</label><input type="text" class="dash-number" value="0" readonly/></div></nav>
+        <nav id="game-controls"><button id="go-home">home</button><button id="start-new-game">new game</button></nav>
+        <div id="game-container"><div id="game-content" class="game-content">
+            <section id="upper" class="vertical stacked tight edgeBottom flowUp expandLeft">
+                <ul class="card-stack-list"><li id="deck" class="card-stack"></li></ul>
+                <ul class="card-stack-list"><li id="waste" class="card-stack"></li></ul>
+                <span class="card-stack-seperator" style="width: 136px;"></span>
+                <ul id="foundation" class="card-stack-list">
+                    <li class="card-stack"></li>
+                    <li class="card-stack"></li>
+                    <li class="card-stack"></li>
+                    <li class="card-stack"></li>
+                </ul>
+            </section>
+            <section class="vertical stacked edgeTop">
+                <ul id="tableau" class="card-stack-list">
+                    <li class="card-stack">
+                        <div class="card" data-face="A&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="2&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="3&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="4&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="5&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="6&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="7&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="8&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="9&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="10&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="J&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="Q&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="K&diamondsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="A&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="2&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="3&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="4&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="5&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="6&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="7&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="8&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="9&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="10&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="J&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="Q&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="K&clubsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="A&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="2&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="3&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="4&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="5&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="6&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="7&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="8&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="9&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="10&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="J&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="Q&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="K&heartsuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="A&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="2&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="3&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="4&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="5&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="6&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="7&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="8&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="9&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                    <li class="card-stack">
+                        <div class="card" data-face="10&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="J&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="Q&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                        <div class="card" data-face="K&spadesuit;"><div class="rank"></div><div class="suit"></div><div class="face"></div></div>
+                    </li>
+                </ul>
+            </section>
+        </div><div id="game-content-scroll" class="game-content"><span id="game-content-scroll-elevator"></span></div>
     </body>
 </html>

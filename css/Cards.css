@@ -6,34 +6,56 @@
         Purpose of the stylesheet follows.
 */
 
+.card-stack-list {
+    display: inline-block;
+    clear: both;
+    list-style: none;
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-indent: 0px;
+    vertical-align: top;
+}
+.card-stack {
+    display: inline-block;
+    list-style: none;
+    list-style-image: none;
+    list-style-position: inside;
+    list-style-type: none;
+    margin: 0;
+    text-indent: 0px;
+    vertical-align: top;
+    background-color: #1F994B;
+    border: solid 10px #0A662C;
+    border-radius: 20px;
+    padding: 2px;
+    width: 114px;
+    min-width: 114px;
+    max-width: 114px;
+    height: 162px;
+    min-height: 162px;
+    max-height: 162px;
+}
+.card-stack.use-image {
+    background-image: url(card-stack.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
 .stacked {
     white-space: nowrap;
     text-align: left;
     vertical-align: top;
 }
-.stacked.edgeBottom {
+.edgeBottom,
+.edgeBottom.card-stack-list,
+.edgeBottom .card-stack-list,
+.edgeBottom .card-stack {
     vertical-align: bottom;
 }
 
-.stacked.edgeTop span,
-.stacked.edgeBottom span {
-    position: relative;
-    display: inline-block;
-    text-align: left;
-    vertical-align: top;
-}
-.stacked.edgeBottom span {
-    vertical-align: bottom;
-}
-
-.card-stack {
-    background-image: url(card-stack.png);
-    background-repeat: no-repeat;
-    background-position: 50% 0%;
-    padding: 9px;
-    min-width: 162px;
-    min-height: 162px;
-}
 .flowBottom .card-stack {
     background-position: 50% 100%;
 }
@@ -41,7 +63,7 @@
 .card {
     position: relative;
     display: inline-block;
-    width: 160px;
+    width: 112px;
     height: 160px;
     overflow: hidden;
     white-space: nowrap;
@@ -53,20 +75,56 @@
     transition: margin 0.5s;
 }
 
-.stacked .card { margin-right: -85pt; }
-.stacked.tight .card { margin-right: -118pt; }
+.card-stack-seperator {
+    display: inline-block;
+}
+
+/*
+ * .edgeBottom              cards start from bottom edge
+ * .edgeRight               cards start from right edge
+ * .flow-up                 cards flow upward
+ * .flow-right              cards flow right
+ * .flow-down               cards flow downward
+ * .flow-left               cards flow left
+ * .stacked                 overlap cards
+ * .stacked-open            overlap open cards
+ * .stacked-closed          overlap closed cards
+ * .stacked.tight           cards overlap tightly by 2 pixels
+ * .stacked.touch           cards overlap a finger width
+ * .stacked.identity        cards overlap to 50px
+ * .stacked.full            cards don't overlap
+ * .stacked.expand          card expand on hover/focus
+ * .stacked.expand-open     open cards will not expand
+ * .stacked.expand-closed   closed cards will not expand
+ * .stacked.expand-tight    card expands to tight
+ * .stacked.expand-touch    card expands to finger width
+ * .stacked.expand-identity card expands to 50px
+ * .stacked.expand-full     card expands to show full card
+ * .stacked.expand-up       cards will expand upward
+ * .stacked.expand-right    cards will expand right
+ * .stacked.expand-down     cards will expand downward
+ * .stacked.expand-left     cards will expand left
+ * 
+ */
+.stacked .card { margin-right: -85px; }
+.stacked.tight .card { margin-right: -112px; }
 .stacked .card:hover, 
-.stacked .card.expand { margin-right: 0pt; }
+.stacked .card.expand { margin-right: 0; }
 
 .edgeTop .card, .edgeBottom .card { display: block; }
-.edgeTop.stacked .card, .edgeBottom.stacked .card { margin-bottom: -85pt; }
-.edgeTop.stacked.tight .card, .edgeBottom.stacked.tight .card { margin-bottom: -120pt; }
-.edgeTop.stacked.tight .card:hover, .edgeBottom.stacked.tight .card:hover { margin-bottom: -85pt; }
-.edgeTop.stacked .card:hover, .edgeBottom.stacked .card:hover, 
-.edgeTop.stacked .card.expand, .edgeBottom.stacked .card.expand { margin-bottom: 0pt; }
+.edgeTop.stacked .card, .edgeBottom.stacked .card { margin-bottom: -112px; }
+.edgeTop.stacked .card[data-face=""], .edgeBottom.stacked .card[data-face=""] { margin-bottom: -130px; }
+.edgeTop.stacked.tight .card, .edgeBottom.stacked.tight .card { margin-bottom: -160px; }
+.edgeTop.stacked.tight .card:not([data-face=""]):hover, .edgeBottom.stacked.tight .card:not([data-face=""]):hover { margin-bottom: -113px; }
+.edgeTop.flowUp.expandLeft.stacked.tight .card, .edgeBottom.flowUp.expandLeft.stacked.tight .card { margin-bottom: -165.5px; }
+.edgeTop.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandLeft.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165.5px; margin-left: -50px; }
+.edgeTop.flowUp.expandRight.stacked.tight .card, .edgeBottom.flowUp.expandRight.stacked.tight .card { margin-bottom: -165.5px; }
+.edgeTop.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover, .edgeBottom.flowUp.expandRight.stacked.tight .card:not(:last-child):not([data-face=""]):hover { margin-bottom: -165.5px; margin-left: 50px; }
+.edgeTop.stacked .card:not([data-face=""]):hover, .edgeBottom.stacked .card:not([data-face=""]):hover, 
+.edgeTop.stacked .card.expand:not([data-face=""]), .edgeBottom.stacked .card.expand:not([data-face=""]) { margin-bottom: 0; }
 
-.stacked .card:last-child { margin-bottom: 0pt !important; }
-.edgeTop.stacked .card:last-child, .edgeBottom.stacked .card:last-child { margin-bottom: 0pt !important; }
+.stacked .card:last-child { margin-bottom: 0 !important; }
+.edgeTop.stacked .card:last-child, .edgeBottom.stacked .card:last-child { margin-bottom: 0 !important; }
 
 .card>.rank,
 .card>.suit {
@@ -135,7 +193,7 @@
     white-space: nowrap;
     background-color: transparent;
     border: solid 1px darkblue;
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 0;
     padding: 0;
     background-image: none;
@@ -148,8 +206,8 @@
 .edgeTop .card>.face,
 .edgeBottom .card>.face {
     display: block;
-    bottom: -2px;
-    left: 52px;
+    bottom: -3px;
+    left: 5px;
 }
 
 .card[data-face="2♦"]>.face {
