@@ -4,10 +4,12 @@
         Klondike = games.Klondike || ( games.Klondike = ( function ( ) {
             var body, deckContainer, wasteContainer, foundationContainer, tableauContainer,
                 foundationStackList,  tableauStackList,
+                gameScoreElement,
                 ArrayProto = Array.prototype,
                 indexOf = ArrayProto.indexOf,
                 forEach = ArrayProto.forEach,
                 slice = ArrayProto.slice,
+                _gameScore = 0,
                 _stackLists = {},
                 _stackListObserverOptions = {
                     childList: true,
@@ -345,6 +347,7 @@
                                             }
                                         }
                                         // do the move
+                                        gameScoreElement.value = ( _gameScore += 200 ).toString();
                                         moveCards( selectedCardList, 0, card, null, 1, null, false, true );
                                         card.removeEventListener( 'click', openCardMove );
                                     }
@@ -362,6 +365,7 @@
                                             }
                                         }
                                         // do the move
+                                        gameScoreElement.value = ( _gameScore += 50 ).toString();
                                         moveCards( selectedCardList, 0, card, null, selectedCardList.length, null, false, true );
                                         card.removeEventListener( 'click', openCardMove );
                                     }
@@ -399,6 +403,7 @@
                                             t.addEventListener( 'click', openCardMove, false );
                                         }
                                     }
+                                    gameScoreElement.value = ( _gameScore += 100 ).toString();
                                     moveCards( selectedCardList, 0, stack, null, 1, null, false, true );
                                 }
                             } else if ( ( stack = inTableau( card ) ) ) {
@@ -424,6 +429,7 @@
                                         // this is illegal, only one card at a time can be moved from foundation
                                         return deselectAllCards( );
                                     }
+                                    gameScoreElement.value = ( _gameScore += 10 ).toString();
                                     moveCards( selectedCardList, 0, stack, null, selectedCardList.length, null, false, true );
                                     // remove potential stack listener because now we have cards there to listen
                                     stack.removeEventListener( 'click', openCardMove );
@@ -468,6 +474,7 @@
                         if ( stackList && stackList.id !== 'foundation' ) {
                             if ( ( ds = card.dataset ) && ( face = ds.face ) && face.slice( 0, -1 ) === 'A'
                                     && ( t = foundationContainer.querySelector( '.card-stack:empty' ) ) ) {
+//                                gameScoreElement.value = ( _gameScore += 100 ).toString();
                                 selectCard( card, true );
                                 openCardMove( t );
                             }
@@ -492,6 +499,7 @@
                 newGame = function ( gameUID ) {
                     if ( ! gameUID )
                         gameUID = 0;
+                    gameScoreElement.value = ( _gameScore = 0 ).toString();
                     deckContainer.innerHTML = '';
                     wasteContainer.innerHTML = '';
                     deckContainer.removeEventListener( 'click', wasteDeal );
@@ -504,6 +512,8 @@
                     deckContainer.addEventListener( 'click', wasteDeal, false );
                 },
                 restartGame = function ( ) {
+                    var data;
+                    gameScoreElement.value = ( _gameScore = 0 ).toString();
                     deckContainer.innerHTML = '';
                     wasteContainer.innerHTML = '';
                     deckContainer.removeEventListener( 'click', wasteDeal );
@@ -513,7 +523,10 @@
                         createDeck( );
                         shuffleDeck( );
                     }
-                    _deckList.forEach( function ( card ) { deckContainer.appendChild( card ); } );
+                    _deckList.forEach( function ( card ) {
+                        ( data = card.dataset ).face = data.open = '';
+                        deckContainer.appendChild( card );
+                    } );
                     newDeal( );
                     deckContainer.addEventListener( 'click', wasteDeal, false );
                 },
@@ -532,7 +545,7 @@
                     tableauContainer = document.querySelector( '#tableau' );
                     foundationStackList = foundationContainer.querySelectorAll( '.card-stack' );
                     tableauStackList = tableauContainer.querySelectorAll( '.card-stack' );
-                    
+                    ( gameScoreElement = document.querySelector( '#game-score input' ) ).value = '0';
                     newGame( );
 //                    registerCardOpenHandler( function ( card ) {
 //                        var data = card && card.dataset,
