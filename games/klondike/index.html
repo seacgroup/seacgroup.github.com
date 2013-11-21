@@ -33,19 +33,26 @@
 * @author Erich Horn
 * 
 */ -->
-        <title>Games - Card - Klondike</title>
+        <title>Games - Klondike</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <base href="../.." />
         <script type="text/javascript" src="js/cross-polyfill.js"></script>
         <script type="text/javascript" src="js/SEAC.js"></script>
+        <script type="text/javascript" src="js/SEAC/Game.js"></script>
+        <script type="text/javascript" src="js/SEAC/Game/Cards.js"></script>
         <script type="text/javascript" src="js/games/Klondike.js"></script>
         <link type="text/css" rel="stylesheet" href="css/Game.css" />
         <link type="text/css" rel="stylesheet" href="css/Cards.css" />
-        <script type="text/javascript" defer>
+        <script type="text/javascript" defer="true">
 window.addEventListener( 'load', function ( ) {
-    var game = new SEAC.Game.Cards.Klondike( );
+    var game = new games.Klondike( );
+    document.querySelector( '#go-home' ).addEventListener( 'click', function ( ) { location.href = '.'; }, false );
+    document.querySelector( '#go-games' ).addEventListener( 'click', function ( ) { location.href = 'games/'; }, false );
+    document.querySelector( '#restart-current-game' ).addEventListener( 'click', game.restartGame, false );
     document.querySelector( '#start-new-game' ).addEventListener( 'click', game.newGame, false );
-    document.querySelector( '#go-home' ).addEventListener( 'click', function ( ) { location.href = 'games/'; }, false );
+    document.querySelector( '#show-rule-book' ).addEventListener( 'click', game.showRules, false );
+    document.querySelector( '#show-options' ).addEventListener( 'click', game.showOptions, false );
+    document.querySelector( '#give-hint' ).addEventListener( 'click', game.giveHint, false );
 } );
         </script>
         <style type="text/css">
@@ -75,7 +82,16 @@ window.addEventListener( 'load', function ( ) {
     </head>
     <body>
         <nav id="game-dash"><div id="game-title">Klondike</div><div id="author-message" title="made by Erich Horn">I&nbsp;made&nbsp;this!&nbsp;<img src="http://profile.ak.fbcdn.net/hprofile-ak-ash3/186306_1198299775_1742197788_q.jpg" /></div><div id="game-score"><label>score</label><input type="text" class="dash-number" value="0" readonly/></div></nav>
-        <nav id="game-controls"><button id="go-home">home</button><button id="start-new-game">new game</button><div id="game-info">Erich Horn &copy; 2013</div></nav>
+        <nav id="game-controls">
+            <button id="go-home">portfolio</button>
+            <button id="go-games">other games</button>
+            <button id="restart-current-game">restart game</button>
+            <button id="start-new-game">new game</button>
+            <button id="show-rule-book">rule book</button>
+            <button id="show-options">game options</button>
+            <button id="give-hint">give hint</button>
+            <div id="game-info">Erich Horn &copy; 2013</div>
+        </nav>
         <div id="game-container"><div id="game-content" class="game-content">
             <section id="upper" class="vertical stacked tight edgeBottom flowUp expandRight">
                 <ul class="card-stack-list"><li id="deck" class="card-stack"></li></ul>

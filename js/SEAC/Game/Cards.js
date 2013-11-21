@@ -1,4 +1,8 @@
-( function ( view, name ) {
+( function ( ) {
+    var modules = typeof modules !== 'undefined' ? modules : window,
+        SEAC = modules.SEAC || ( modules.SEAC = { } ),
+        Game = SEAC.Game || ( SEAC.Game = { } ),
+        Cards = Game.Cards || ( Game.Cards = ( function ( view, name ) {
     var CardAttr = function ( ) {
         
         },
@@ -53,4 +57,7 @@
             Game.Cards = Cards;
     }
     return Cards;
-} ) ( typeof modules === 'object' ? modules : window );
+} )( ) );
+    
+    return Game;
+} )( );

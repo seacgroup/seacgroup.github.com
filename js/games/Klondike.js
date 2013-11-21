@@ -1,9 +1,7 @@
 ( function ( ) {
     var modules = typeof modules !== 'undefined' ? modules : window,
-        SEAC = modules.SEAC || ( modules.SEAC = { } ),
-        Game = SEAC.Game || ( SEAC.Game = { } ),
-        Cards = Game.Cards || ( Game.Cards = { } ),
-        Klondike = Cards.Klondike || ( Cards.Klondike = ( function ( ) {
+        games = modules.games || ( modules.games = { } ),
+        Klondike = games.Klondike || ( games.Klondike = ( function ( ) {
             var body, deckContainer, wasteContainer, foundationContainer, tableauContainer,
                 foundationStackList,  tableauStackList,
                 ArrayProto = Array.prototype,
@@ -505,6 +503,27 @@
                     newDeal( );
                     deckContainer.addEventListener( 'click', wasteDeal, false );
                 },
+                restartGame = function ( ) {
+                    deckContainer.innerHTML = '';
+                    wasteContainer.innerHTML = '';
+                    deckContainer.removeEventListener( 'click', wasteDeal );
+                    forEach.call( foundationStackList, function ( stack ) { stack.innerHTML = ''; stack.addEventListener( 'click', openCardMove, false ); } );
+                    forEach.call( tableauStackList, function ( stack ) { stack.innerHTML = ''; } );
+                    if ( ! _deckList.length ) {
+                        createDeck( );
+                        shuffleDeck( );
+                    }
+                    _deckList.forEach( function ( card ) { deckContainer.appendChild( card ); } );
+                    newDeal( );
+                    deckContainer.addEventListener( 'click', wasteDeal, false );
+                },
+                showRules = function ( ) { window.open( 'http://en.wikipedia.org/wiki/Klondike_(solitaire)', 'rule-wiki', '' ); },
+                showOptions = function ( ) {
+                    alert( 'Options are not yet available, please check back soon.' );
+                },
+                giveHint = function ( ) {
+                    alert( 'Hints are not yet available, please check back soon.' );
+                },
                 Klondike = function ( ) {
                     body = document.body;
                     deckContainer = document.querySelector( '#deck' );
@@ -531,6 +550,10 @@
             
             Klondike.prototype = {
                 newGame: newGame,
+                restartGame: restartGame,
+                giveHint: giveHint,
+                showRules: showRules,
+                showOptions: showOptions,
                 registerCardOpenHandler: registerCardOpenHandler,
                 unregisterCardOpenHandler: unregisterCardOpenHandler,
                 unregisterCardOpenHandlerAll: unregisterCardOpenHandlerAll
