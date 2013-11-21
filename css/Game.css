@@ -123,15 +123,29 @@ nav {
     height: 48px;
     z-index: 20000;
     background-color: #79BEDB;
-    font-size: 14px;
+    font-size: 28px;
     color: #593E1A;
     border: none 2px;
     border-radius: 0px;
     border-color: #6B78B4;
 }
+nav * {
+    vertical-align: middle;
+    display: inline-block;
+}
+nav input {
+    font-size: 28px;
+    color: #593E1A;
+}
 #game-dash {
     top: 0px;
     border-bottom-style: solid;
+}
+#game-title {
+    float: left;
+}
+#author-message {
+    float: right;
 }
 #game-controls {
     bottom: 0px;
