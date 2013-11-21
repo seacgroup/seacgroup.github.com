@@ -140,6 +140,8 @@ nav input {
 #game-dash {
     top: 0px;
     border-bottom-style: solid;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 #game-title {
     float: left;
