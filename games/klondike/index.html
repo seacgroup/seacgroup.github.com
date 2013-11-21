@@ -45,7 +45,9 @@
         <link type="text/css" rel="stylesheet" href="css/Cards.css" />
         <script type="text/javascript" defer="true">
 window.addEventListener( 'load', function ( ) {
-    var loadingMessage = document.querySelector( '#loading-message' ),
+    var body = document.body,
+        loadingMessage = document.querySelector( '#loading-message' ),
+        zoom = document.querySelector( '#zoom-value' ),
         game = new games.Klondike( );
     document.querySelector( '#go-home' ).addEventListener( 'click', function ( ) { location.href = '.'; }, false );
     document.querySelector( '#go-games' ).addEventListener( 'click', function ( ) { location.href = 'games/'; }, false );
@@ -54,6 +56,49 @@ window.addEventListener( 'load', function ( ) {
     document.querySelector( '#show-rule-book' ).addEventListener( 'click', game.showRules, false );
     document.querySelector( '#show-options' ).addEventListener( 'click', game.showOptions, false );
     document.querySelector( '#give-hint' ).addEventListener( 'click', game.giveHint, false );
+    
+    if ( ! body.style.zoom )
+        body.style.zoom = zoom.value || '100%';
+    zoom.value = body.style.zoom;
+    if ( zoom.value === body.style.zoom ) {
+        document.querySelector( '#zoom-in' ).addEventListener( 'click', function ( ) {
+            body.style.zoom = zoom.value = ( parseInt( body.style.zoom ) + 10 ) + '%';
+        }, false );
+        document.querySelector( '#zoom-out' ).addEventListener( 'click', function ( ) {
+            body.style.zoom = zoom.value = ( parseInt( body.style.zoom ) - 10 ) + '%';
+        }, false );
+        zoom.addEventListener( 'change', function ( ) {
+            body.style.zoom = ( parseInt( zoom.value ) || parseInt( body.style.zoom ) ) + '%';
+        }, false );
+        document.querySelector( '#zoom-fullscreen' ).addEventListener( 'click', function ( ) {
+            if (!document.fullscreenElement &&    // alternative standard method
+                    !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                    this.setAttribute( 'title', 'exit fullscreen' );
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                    this.setAttribute( 'title', 'exit fullscreen' );
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                    this.setAttribute( 'title', 'exit fullscreen' );
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                    this.setAttribute( 'title', 'fullscreen' );
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                    this.setAttribute( 'title', 'fullscreen' );
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                    this.setAttribute( 'title', 'fullscreen' );
+                }
+            }
+        }, false );
+    } else {
+        document.querySelector( '#zoom-widget' ).style.display = 'none';
+    }
     loadingMessage.parentElement.removeChild( loadingMessage );
 } );
         </script>
@@ -79,19 +124,18 @@ window.addEventListener( 'load', function ( ) {
     margin-top: 10px;
     width: 100%;
 }
-
         </style>
     </head>
     <body>
         <nav id="game-dash"><div id="game-title">Klondike</div><div id="author-message" title="made by Erich Horn">I&nbsp;made&nbsp;this!&nbsp;<img src="http://profile.ak.fbcdn.net/hprofile-ak-ash3/186306_1198299775_1742197788_q.jpg" /></div><div id="game-score"><label>score</label><input type="text" class="dash-number" value="0" readonly/></div></nav>
-        <nav id="game-controls">
+        <nav id="game-controls"><div class="game-controls-widget right-edge">&nbsp;zoom&nbsp;<button id="zoom-in" title="zoom in">&nbsp;</button><input id="zoom-value" type="text" value="100%" /><button id="zoom-out" title="zoom out">&nbsp;</button>&nbsp;<button id="zoom-fullscreen" title="fullscreen">&nbsp;</button></div>
             <button id="go-home">portfolio</button>
             <button id="go-games">other games</button>
-            <button id="restart-current-game">restart game</button>
+            <button id="restart-current-game">restart</button>
             <button id="start-new-game">new game</button>
-            <button id="show-rule-book">rule book</button>
-            <button id="show-options">game options</button>
-            <button id="give-hint">give hint</button>
+            <button id="show-rule-book">rules</button>
+            <button id="show-options">options</button>
+            <button id="give-hint">hint</button>
             <div id="game-info">Erich Horn &copy; 2013</div>
         </nav>
         <div id="game-container"><div id="game-content" class="game-content">
