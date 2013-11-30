@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+    <!--
+/*
+* The MIT Modified License (MIT, Erich Horn)
+* Copyright (c) 2012, 2013 Erich Horn
+*
+* Author Erich Horn
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy 
+* of this software and associated documentation files (the "Software"), to 
+* deal in the Software without restriction, including without limitation the 
+* rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+* sell copies of the Software, and to permit persons to whom the Software is 
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice, author and this permission notice shall be 
+* included in all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+* IN THE SOFTWARE.
+*/
+
+/**
+* Description of snippets/BouncingBalls.html
+
+*
+* @author Erich Horn
+* 
+*/ -->
+<html>
+    <head>
+        <title>Bouncing Balls</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style type="text/css">
+root, html {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    background: -moz-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(229,248,252,1)), color-stop(10%, rgba(186,231,242,1)), color-stop(80%, rgba(0,134,168,1)), color-stop(100%, rgba(0,116,148,1)));
+    background: -webkit-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -o-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -ms-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: linear-gradient(to bottom, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5f8fc', endColorstr='#007494', GradientType=0 );
+}
+body {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-image: url(../css/field-of-daisies.png), url(../css/mountains.png);
+    background-repeat: repeat no-repeat;
+    background-size: 200vh,200vh;
+    background-position: 0vh 68vh,0px 47vh;
+    -webkit-animation: sidescroll0 28s linear infinite;
+    -moz-animation: sidescroll0 28s linear infinite;
+    animation: sidescroll0 28s linear infinite;
+}
+@-webkit-keyframes sidescroll0 {
+    from { background-position: 0vh 68vh; }
+    to { background-position: 200vh 68vh; }
+}
+
+#skydrop {
+    position: absolute;
+    margin: 10vmin 0 0 0;
+    width: 100%;
+    height: 50%;
+    opacity: 0.9;
+    background-image: url(../css/bg-clouds.png);
+    background-repeat: repeat no-repeat;
+    background-size: 50vmin 25vmin;
+}
+
+#backdrop {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../css/sidescroller-field1.png);
+    background-repeat: repeat no-repeat;
+    background-position: 0vh 65vh;
+    background-size: 105vh 35vh;
+    -webkit-animation: sidescroll1 7s linear infinite;
+    -moz-animation: sidescroll1 7s linear infinite;
+    animation: sidescroll1 7s linear infinite;
+}
+@-webkit-keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+#ball-container {
+    position: absolute;
+    width: 75vw;
+    bottom: 5vh;
+}
+.ball-wrapper {
+    position: absolute;
+    display: inline-block;
+    width: 20vmin;
+    height: 20vmin;
+    margin-left: -10vmin;
+    margin-top: -20vmin;
+    z-index: 1;
+}
+.ball {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: -webkit-linear-gradient(top,rgba(187,187,187,1) 0%,rgba(119,119,119,1) 99%);
+    box-shadow: inset 0 -5px 15px rgba(255,255,255,0.4),inset -2px -1px 40px rgba(0,0,0,0.4),0 0 1px #000;
+    z-index: 1;
+}
+.ball::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+    margin-left: -10vmin;
+}
+[data-color="red"]>.ball::before {
+    background-color: maroon;
+}
+[data-color="blue"]>.ball::before {
+    background-color: cadetblue;
+}
+[data-color="green"]>.ball::before {
+    background-color: darkolivegreen;
+}
+.ball::after {
+    position: absolute;
+    content: "";
+    width: 50%; 
+    height: 29%;
+    margin-left: -5vmin;
+    margin-top: 1vmin;
+    background: -webkit-linear-gradient(top,  rgba(232,232,232,0.8)  0%,rgba(232,232,232,0.8) 1%,rgba(255,255,255,0) 100%);
+    background: -moz-linear-gradient(top,  rgba(232,232,232,0.8) 0%,rgba(232,232,232,0.8) 1%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(top,  rgba(232,232,232,0.8) 0%,rgba(232,232,232,0.8) 1%,rgba(255,255,255,0) 100%);
+    border-radius: 50%;
+    z-index: 2;
+}
+.ball-shadow {
+    position: absolute;
+    bottom: -5px;
+    margin-left: 25%;
+    width: 50%;
+    height: 10%;
+    background-color: rgba(20, 20, 20, 0.1);
+    box-shadow: 0 0 10vmin 18vmin rgba(20, 20, 20, 0.1);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.ball-wrapper[data-animation="bounce"]>.ball {
+    -webkit-animation: bounce-ball 1s infinite;
+    -moz-animation: bounce-ball 1s infinite;
+    animation: bounce-ball 1s infinite;
+}
+.ball-wrapper[data-animation="bounce"]>.ball-shadow {
+    -webkit-animation: bounce-shadow 1s infinite;
+    -moz-animation: bounce-shadow 1s infinite;
+    animation: bounce-shadow 1s infinite;
+}
+
+@-webkit-keyframes bounce-ball {
+    0% {
+    	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    40% {}
+    50% {
+	margin-top: -70%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    55% {
+	margin-top: -80%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    65% {
+	margin-top: -55%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    95% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    100% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+@-moz-keyframes bounce-ball {
+    0% {
+    	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    40% {}
+    50% {
+	margin-top: -70%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    55% {
+	margin-top: -80%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    65% {
+	margin-top: -55%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    95% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    100% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+@keyframes bounce-ball {
+    0% {
+    	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    40% {}
+    50% {
+	margin-top: -70%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    55% {
+	margin-top: -80%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    65% {
+	margin-top: -55%;
+	-webkit-animation-timing-function: ease-out;
+    }
+    95% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+    100% {
+	margin-top: 0%;
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+@-webkit-keyframes bounce-shadow {
+    0% {
+	bottom: 0;
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+    50% {
+    margin-left: 10%;
+    width: 80%;
+	height: 4%;
+	background: rgba(20, 20, 20, .3);
+	-webkit-animation-timing-function: ease-out;
+    }
+    100% {
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+@-moz-keyframes bounce-shadow {
+    0% {
+	bottom: 0;
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+    50% {
+    margin-left: 10%;
+    width: 80%;
+	height: 4%;
+	background: rgba(20, 20, 20, .3);
+	-webkit-animation-timing-function: ease-out;
+    }
+    100% {
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+@keyframes bounce-shadow {
+    0% {
+	bottom: 0;
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+    50% {
+    margin-left: 10%;
+    width: 80%;
+	height: 4%;
+	background: rgba(20, 20, 20, .3);
+	-webkit-animation-timing-function: ease-out;
+    }
+    100% {
+	margin-left: 25%;
+	width: 50%;
+	height: 10%;
+	background: rgba(20, 20, 20, .1);
+	-webkit-animation-timing-function: ease-in;
+    }
+}
+
+        </style>
+    </head>
+    <body>
+        <div id="backdrop">
+            <div id="ball-container">
+                <div class="ball-wrapper" data-animation="bounce" data-color="red" style="left: 25vw;"><div class="ball"></div><div class="ball-shadow"></div></div>
+                <div class="ball-wrapper" data-animation="bounce" data-color="green" style="left: 50vw;"><div class="ball"></div><div class="ball-shadow"></div></div>
+                <div class="ball-wrapper" data-animation="bounce" data-color="blue" style="left: 75vw;"><div class="ball"></div><div class="ball-shadow"></div></div>
+            </div>
+            <div id="skydrop"></div>
+        </div>
+    </body>
+</html>
