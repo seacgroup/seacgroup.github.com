@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+    <!--
+/*
+* The MIT Modified License (MIT, Erich Horn)
+* Copyright (c) 2012, 2013 Erich Horn
+*
+* Author Erich Horn
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy 
+* of this software and associated documentation files (the "Software"), to 
+* deal in the Software without restriction, including without limitation the 
+* rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
+* sell copies of the Software, and to permit persons to whom the Software is 
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice, author and this permission notice shall be 
+* included in all copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+* IN THE SOFTWARE.
+*/
+
+/**
+* Description of snippets/clouds.html
+
+*
+* @author Erich Horn
+* 
+*/ -->
+<html>
+    <head>
+        <title>Clouds</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+window.addEventListener( 'load', function ( ) {
+    var HALFPI = Math.PI / 2,
+        ArrayProto = Array.prototype;
+    var CloudStripDir = '../css/',
+        CloudFrameWidth = 180,
+        CloudFrameHeight = 180,
+        CloudStripURLs = [ 'clouds01.png', 'clouds02.png', 'clouds03.png', 'clouds04.png', 'clouds05.png' ],
+        CloudStates = {
+            "normal": [ 0 ],
+            "overcast": [ 1 ],
+            "raining": [ 3, 4, 5 ],
+            "lightning": [ 2 ]
+        },
+        CloudStateNames = Object.keys( CloudStates ),
+        WhetherStates = {   // CloudState, AnimationCycleCount(0 = infinite)
+            "normal": [ "normal" ],
+            "overcast": [ "normal", 3, "overcast", 10 ],
+            "raining": [ "overcast", 3, "raining-light", 5, "raining", 7, "raining-heavy", 3 ],
+            "lightning": [ "overcast", 3, "raining-light", 12, "raining", 14, "raining-heavy", 16, "lightning", 1 ],
+            "storm": [ "raining", 5, "raining", 7, "lightning", 1 ]
+        },
+        WhetherStateNames = Object.keys( WhetherStates ),
+        body = document.body,
+        soundSwitch = body.querySelector( '#sound-switch' ),
+        soundOn = true,
+        SFXCacheFactory = function ( sfxDir, sfxExt, preloads ) {
+            var _SFXCache = {},
+                _StripDir = /^(?:\w+:\/{0,2}[\w\.\-]+(?:\d+)?)?\/(?:~[\w\.\-]+\/)?/,
+                _SFXDir = ( sfxDir || '' ).replace( _StripDir, '' ),
+                _SFXExt = ( sfxExt || '' ).replace( _StripDir, '' ),
+                _SoundOn = soundOn,
+                _SoundVolume = 1,
+                sound = function ( sw ) {
+                    if ( sw == null ) sw = ! _SoundOn;
+                    if ( ( _SoundOn = sw ) )
+                        ArrayProto.forEach.call( document.querySelectorAll( 'audio' ), function ( elt ) {
+                            if ( elt.duration > 0 )
+                                elt.volume = _SoundVolume;
+                        } );
+                    else
+                        ArrayProto.forEach.call( document.querySelectorAll( 'audio' ), function ( elt ) {
+                            if ( elt.duration > 0 )
+                                elt.volume = 0;
+                        } );
+                    
+                    return this;
+                },
+                loadSFX = function ( sfxFile ) {
+                    var sfx = document.createElement( 'audio' ),
+                        t = 1,
+                        sfxName = typeof arguments[t] === 'string' ? arguments[t++] : sfxFile,
+                        callbacks = arguments[t] instanceof Object ? arguments[t++] : { };
+                    if ( _SFXExt && ! ( sfxFile ).match( /\.\w+$/ ) )
+                        sfxFile += _SFXExt;
+                    sfx.setAttribute( 'src', _SFXDir + sfxFile.replace( _StripDir, '' ) );
+                    sfx.setAttribute( 'preload', 'auto' );
+                    _SFXCache[sfxName] = sfx;
+                    for ( var type in callbacks )
+                        if ( ( t = callbacks[type] ) instanceof Function )
+                            sfx.addEventListener( type, t, false );
+                    document.body.appendChild( sfx );
+                    return this;
+                },
+                playSFX = function ( sfxName, play, currentTime ) {
+                    var sfx = _SFXCache[sfxName];
+                    sfx.pause( );
+                    if ( currentTime != null )
+                        sfx.currentTime = currentTime || 0;
+                    if ( play == null || play )
+                        sfx.play( );
+                    return this;
+                },
+                SFXCache = function ( sfxName, sfxFile, callbacks ) {
+                    var t;
+                    loadSFX( sfxName, sfxFile, callbacks );
+                    this.__defineGetter__( 'name', function ( ) { return sfxName; } );
+                    this.__defineGetter__( 'time', function ( ) { return ( t = _SFXCache[sfxName] ) && t.currentTime; } );
+                    this.reload = loadSFX.bind( this, sfxName );
+                    this.play = loadSFX.bind( this, sfxName );
+                    this.pause = loadSFX.bind( this, sfxName, false );
+                };
+            
+            SFXCache.Load = loadSFX;
+            SFXCache.Play = playSFX;
+            SFXCache.__defineGetter__( 'Sound', function ( ) { return _SoundOn; } );
+            SFXCache.__defineSetter__( 'Sound', sound );
+            
+            if ( preloads instanceof Array )
+                preloads.forEach( loadSFX );
+            
+            return SFXCache;
+        },
+        thunderList = [
+            '281834_SOUNDDOGS__we.mp3',
+            '281835_SOUNDDOGS__we.mp3',
+            '307979_SOUNDDOGS__th.mp3'
+        ],
+        thunderCache = SFXCacheFactory( '../sfx/', '.mp3', thunderList ),
+        playThunder = function ( thunderIndex ) {
+            thunderCache.Play( thunderList[thunderIndex != null ? thunderIndex : Math.random( ) * thunderList.length | 0] );
+        },
+        skyContainer = document.querySelector( '.sky-container' ),
+        skyFlash = function ( millisecs ) {
+            skyContainer.classList.add( 'lightning' );
+            setTimeout( function () {
+                skyContainer.classList.remove( 'lightning' );
+            }, millisecs || 333 );
+        },
+        skylines = document.querySelectorAll( '.skyline' ),
+        getRandomWhetherState = function ( ) {
+            return WhetherStateNames[Math.random( ) * WhetherStateNames.length | 0];
+        },
+        getRandomCloudState = function ( whetherState ) {
+            if ( ! whetherState )
+                whetherState = getRandomWhetherState( );
+            else if ( ! isNaN( whetherState ) )
+                whetherState = WhetherStateNames[whetherState];
+            var cloudStates = WhetherStates[whetherState],
+                i = Math.random( ) * cloudStates.length | 0;
+            return {
+                whetherState: whetherState,
+                cloudState: isNaN( cloudStates[i] ) ? cloudStates[i] : cloudStates[--i],
+                cloudIterations: cloudStates[++i] || ''
+            };
+        },
+        setCloudState = function ( cloud, whetherState, cloudState, cloudIterations ) {
+            var classList = cloud.classList,
+                style = cloud.style,
+                t;
+            cloud.className = 'cloud';
+            cloud.offsetWidth = cloud.offsetWidth;  // hack to insure restart
+            if ( ! cloudState ) {
+                cloudState = ( t = getRandomCloudState( whetherState ) ).cloudState;
+                cloudIterations || ( cloudIterations = t.cloudIterations );
+            }
+            classList.add( cloudState );
+            if ( cloudIterations )
+                style.webkitAnimationIterationCount = cloudIterations;
+            return cloudState;
+        },
+        placeCloud = function ( skylineIndex, xPosition, whetherState, cloudState, cloudImage ) {
+            var cloud = document.createElement( 'div' ),
+                classList = cloud.classList,
+                style = cloud.style,
+                cloudState;
+            skylineIndex || ( skylineIndex = Math.random( ) * skylines.length | 0 );
+            xPosition || ( xPosition = Math.random( ) * 100 | 0 );
+            style.backgroundImage = 'url(' + ( cloudImage || CloudStripDir + CloudStripURLs[Math.random( ) * CloudStripURLs.length | 0] ) + ')';
+            style.left = xPosition + '%';
+            cloudState = setCloudState( cloud, whetherState || ( whetherState = getRandomWhetherState( ) ) );
+            cloud.addEventListener( "webkitAnimationEnd", function () {
+                var lcs = cloudState;
+                if ( ( cloudState = setCloudState( cloud, whetherState ) ) === 'lightning' )
+                    skyFlash( );
+                    playThunder( );
+//                console.debug( 'finished ' + lcs + ', begin ' + cloudState + ' animation' );
+            }, false );
+            skylines[skylineIndex].appendChild( cloud );
+            return cloud;
+        };
+    
+    soundSwitch.addEventListener( 'click', function ( ) {
+        var classList = body.classList,
+            sc = 'sound-off',
+            sw = classList.contains( sc );
+       classList[sw ? 'remove' : 'add']( sc );
+       thunderCache.Sound = sw;
+    } );
+    var a = {}, n = 10000, i = n, j;
+    while ( i-- > 0 ) {
+        a[j = getRandomCloudState( ).cloudState] = a[j] + 1 || 0;
+    }
+    for ( i in a )
+        console.debug( i + ': gotten ' + a[i] + ' times ( ratio ' + ( a[i] * 100 / n ) + '% )' );
+    
+    n = 10;
+    while ( n-- > 0 )
+        placeCloud( );
+    
+} );
+        </script>
+        <style type="text/css">
+
+root, html {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: skyblue;
+    background: -moz-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(229,248,252,1)), color-stop(10%, rgba(186,231,242,1)), color-stop(80%, rgba(0,134,168,1)), color-stop(100%, rgba(0,116,148,1)));
+    background: -webkit-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -o-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: -ms-linear-gradient(top, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    background: linear-gradient(to bottom, rgba(229,248,252,1) 0%, rgba(186,231,242,1) 10%, rgba(0,134,168,1) 80%, rgba(0,116,148,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5f8fc', endColorstr='#007494', GradientType=0 );
+}
+
+audio {
+    display: none;
+}
+#sound-switch {
+    position: absolute;
+    display: inline-block;
+    background-image: url(../css/widgeticonsheet-40x40y-12c2r.png);
+    background-position: -160px 0px;
+    width: 40px;
+    height: 40px;
+    bottom: 5px;
+    right: 5px;
+    z-index: 20000;
+}
+body.sound-off #sound-switch {
+    background-position: -200px 0px;
+}
+
+body {
+    position: absolute;
+    overflow: hidden;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-image: url(../css/field-of-daisies.png), url(../css/mountains.png);
+    background-repeat: repeat no-repeat;
+    background-size: 200vh,200vh;
+    background-position: 0vh 68vh,0px 47vh;
+    -webkit-animation: sidescroll0 28s linear infinite;
+    -moz-animation: sidescroll0 28s linear infinite;
+    animation: sidescroll0 28s linear infinite;
+}
+@-webkit-keyframes sidescroll0 {
+    from { background-position: 0vh 68vh; }
+    to { background-position: 200vh 68vh; }
+}
+@-moz-keyframes sidescroll0 {
+    from { background-position: 0vh 68vh; }
+    to { background-position: 200vh 68vh; }
+}
+@keyframes sidescroll0 {
+    from { background-position: 0vh 68vh; }
+    to { background-position: 200vh 68vh; }
+}
+
+#backdrop {
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../css/sidescroller-field1.png);
+    background-repeat: repeat no-repeat;
+    background-position: 0vh 65vh;
+    background-size: 105vh 35vh;
+    -webkit-animation: sidescroll1 7s linear infinite;
+    -moz-animation: sidescroll1 7s linear infinite;
+    animation: sidescroll1 7s linear infinite;
+}
+@-webkit-keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+@-moz-keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+@keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+
+.sky-container {
+    background-color: rgba(255,255,255,0);
+    -webkit-transition: background-color 1s;
+    -moz-transition: background-color 1s;
+    transition: background-color 1s;
+}
+.sky-container.lightning {
+    background-color: rgba(255,255,255,1);
+}
+
+.skyline {
+    position: relative;
+    width: 100%;
+    height: 7vh;
+    top: 30vh;
+}
+
+.cloud {
+    position: absolute;
+    display: inline-block;
+    width: 18vh;
+    height: 18vh;
+    margin: -7vh -9vh -11vh -9vh;
+    background-image: url(../css/clouds01.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: 18vh;
+}
+
+/* "normal": [ 0 ],
+ * "overcast": [ 1 ],
+ * "raining": [ 3, 4, 5 ],
+ * "lightning": [ 2 ]
+ */
+.cloud.normal {
+    background-position: 0px 0vh;
+    -webkit-animation: cloud-normal 1s steps(1,end);
+}
+.cloud.overcast {
+    background-position: 0px -18vh;
+    -webkit-animation: cloud-overcast 1s steps(1,end);
+}
+.cloud.raining {
+    background-position: 0px -54vh;
+    -webkit-animation: cloud-raining 375ms steps(3,end);
+}
+.cloud.raining-light {
+    background-position: 0px -54vh;
+    -webkit-animation: cloud-raining 500ms steps(3,end);
+}
+.cloud.raining-heavy {
+    background-position: 0px -54vh;
+    -webkit-animation: cloud-raining 250ms steps(3,end);
+}
+.cloud.lightning {
+    -webkit-animation: cloud-lightning 333ms steps(2,end) 1;
+}
+@-webkit-keyframes cloud-normal {
+    from { background-position: 0px 0vh; }
+    to { background-position: 0px -18vh; }
+}
+@-webkit-keyframes cloud-overcast {
+    from { background-position: 0px -18vh; }
+    to { background-position: 0px -36vh; }
+}
+@-webkit-keyframes cloud-raining {
+    from { background-position: 0px -54vh; }
+    to { background-position: 0px -108vh; }
+}
+@-webkit-keyframes cloud-lightning {
+    from { background-position: 0px -36vh; }
+    to { background-position: 0px -72vh; }
+}
+        </style>
+    </head>
+    <body class="sky-container">
+        <div id="backdrop">
+            <div class="skyline"></div>
+            <div class="skyline"></div>
+            <div class="skyline"></div>
+        </div>
+        <div id="sound-switch"></div>
+    </body>
+</html>
