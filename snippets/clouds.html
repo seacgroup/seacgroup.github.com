@@ -39,7 +39,27 @@
         <script type="text/javascript">
 window.addEventListener( 'load', function ( ) {
     var HALFPI = Math.PI / 2,
-        ArrayProto = Array.prototype;
+        ArrayProto = Array.prototype,
+        appName, appVersion,
+        snif = function ( ) {
+            var N= navigator.appName, ua= navigator.userAgent, tem;
+            var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+            if ( M ) {
+                if( ( tem = ua.match(/version\/([\.\d]+)/i)) != null )
+                    M[2]= tem[1];
+                appName = M[1].toLowerCase( );
+                appVersion = M[2].toLowerCase( );
+                return true;
+            }
+        };
+    
+    if ( ! snif( ) || appName === 'opera' || appName === 'msie' ) {
+        alert( 'Please use Google Chrome or Safari for best results' );
+        document.body.innerHTML = 'Please use Google Chrome or Safari for best results';
+        return;
+    } else if ( appName === 'firefox' ) {
+        alert( 'Please use Google Chrome or Safari for best results, firefox does not wholy support this page.' );
+    }
     var CloudStripDir = '../css/',
         CloudFrameWidth = 180,
         CloudFrameHeight = 180,
@@ -173,27 +193,37 @@ window.addEventListener( 'load', function ( ) {
                 cloudIterations || ( cloudIterations = t.cloudIterations );
             }
             classList.add( cloudState );
-            if ( cloudIterations )
+            if ( cloudIterations ) {
                 style.webkitAnimationIterationCount = cloudIterations;
+                style.mozAnimationIterationCount = cloudIterations;
+                style.msAnimationIterationCount = cloudIterations;
+                style.oAnimationIterationCount = cloudIterations;
+                style.animationIterationCount = cloudIterations;
+            }
             return cloudState;
         },
         placeCloud = function ( skylineIndex, xPosition, whetherState, cloudState, cloudImage ) {
             var cloud = document.createElement( 'div' ),
                 classList = cloud.classList,
                 style = cloud.style,
-                cloudState;
+                cloudState,
+                cloudListener = function () {
+                    var lcs = cloudState;
+                    if ( ( cloudState = setCloudState( cloud, whetherState ) ) === 'lightning' )
+                        skyFlash( );
+                        playThunder( );
+//                    console.debug( 'finished ' + lcs + ', begin ' + cloudState + ' animation' );
+                };
             skylineIndex || ( skylineIndex = Math.random( ) * skylines.length | 0 );
             xPosition || ( xPosition = Math.random( ) * 100 | 0 );
             style.backgroundImage = 'url(' + ( cloudImage || CloudStripDir + CloudStripURLs[Math.random( ) * CloudStripURLs.length | 0] ) + ')';
             style.left = xPosition + '%';
             cloudState = setCloudState( cloud, whetherState || ( whetherState = getRandomWhetherState( ) ) );
-            cloud.addEventListener( "webkitAnimationEnd", function () {
-                var lcs = cloudState;
-                if ( ( cloudState = setCloudState( cloud, whetherState ) ) === 'lightning' )
-                    skyFlash( );
-                    playThunder( );
-//                console.debug( 'finished ' + lcs + ', begin ' + cloudState + ' animation' );
-            }, false );
+            cloud.addEventListener( "webkitAnimationEnd", cloudListener, false );
+            cloud.addEventListener( "mozAnimationEnd", cloudListener, false );
+            cloud.addEventListener( "msAnimationEnd", cloudListener, false );
+            cloud.addEventListener( "oAnimationEnd", cloudListener, false );
+            cloud.addEventListener( "animationEnd", cloudListener, false );
             skylines[skylineIndex].appendChild( cloud );
             return cloud;
         };
@@ -262,23 +292,35 @@ body {
     text-align: center;
     background-image: url(../css/field-of-daisies.png), url(../css/mountains.png);
     background-repeat: repeat no-repeat;
+    background-size: 100%,100%;
     background-size: 200vh,200vh;
+    background-position: 0px 94%,0px 56%;
     background-position: 0vh 68vh,0px 47vh;
     -webkit-animation: sidescroll0 28s linear infinite;
     -moz-animation: sidescroll0 28s linear infinite;
+    -ms-animation: sidescroll0 28s linear infinite;
+    -o-animation: sidescroll0 28s linear infinite;
     animation: sidescroll0 28s linear infinite;
 }
 @-webkit-keyframes sidescroll0 {
-    from { background-position: 0vh 68vh; }
-    to { background-position: 200vh 68vh; }
+    from { background-position: 0px 94%,0px 56%; background-position: 0vh 68vh,0px 47vh; }
+    to { background-position: 200px 94%,200px 56%; background-position: 200vh 68vh,200vh 47vh; }
 }
 @-moz-keyframes sidescroll0 {
-    from { background-position: 0vh 68vh; }
-    to { background-position: 200vh 68vh; }
+    from { background-position: 0vh 34%; background-position: 0vh 68vh; }
+    to { background-position: 100% 34%; background-position: 200vh 68vh; }
+}
+@-ms-keyframes sidescroll0 {
+    from { background-position: 0vh 34%; background-position: 0vh 68vh; }
+    to { background-position: 100% 34%; background-position: 200vh 68vh; }
+}
+@-o-keyframes sidescroll0 {
+    from { background-position: 0vh 34%; background-position: 0vh 68vh; }
+    to { background-position: 100% 34%; background-position: 200vh 68vh; }
 }
 @keyframes sidescroll0 {
-    from { background-position: 0vh 68vh; }
-    to { background-position: 200vh 68vh; }
+    from { background-position: 0vh 34%; background-position: 0vh 68vh; }
+    to { background-position: 100% 34%; background-position: 200vh 68vh; }
 }
 
 #backdrop {
@@ -288,10 +330,14 @@ body {
     height: 100%;
     background-image: url(../css/sidescroller-field1.png);
     background-repeat: repeat no-repeat;
+    background-position: 0px 100%;
     background-position: 0vh 65vh;
+    background-size: 50%;
     background-size: 105vh 35vh;
     -webkit-animation: sidescroll1 7s linear infinite;
     -moz-animation: sidescroll1 7s linear infinite;
+    -ms-animation: sidescroll1 7s linear infinite;
+    -o-animation: sidescroll1 7s linear infinite;
     animation: sidescroll1 7s linear infinite;
 }
 @-webkit-keyframes sidescroll1 {
@@ -299,6 +345,14 @@ body {
     to { background-position: 105vh 65vh; }
 }
 @-moz-keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+@-ms-keyframes sidescroll1 {
+    from { background-position: 0vh 65vh; }
+    to { background-position: 105vh 65vh; }
+}
+@-o-keyframes sidescroll1 {
     from { background-position: 0vh 65vh; }
     to { background-position: 105vh 65vh; }
 }
@@ -311,6 +365,9 @@ body {
     background-color: rgba(255,255,255,0);
     -webkit-transition: background-color 1s;
     -moz-transition: background-color 1s;
+    -ms-transition: background-color 1s;
+    -o-transition: background-color 1s;
+    transition: background-color 1s;
     transition: background-color 1s;
 }
 .sky-container.lightning {
@@ -320,19 +377,25 @@ body {
 .skyline {
     position: relative;
     width: 100%;
+    height: 7%;
     height: 7vh;
+    top: 30%;
     top: 30vh;
 }
 
 .cloud {
     position: absolute;
     display: inline-block;
+    width: 180px;
     width: 18vh;
+    height: 180px;
     height: 18vh;
+    margin: -60px -90px -120px -90px;
     margin: -7vh -9vh -11vh -9vh;
     background-image: url(../css/clouds01.png);
     background-repeat: no-repeat;
     background-position: 0px 0px;
+    background-size: 180px;
     background-size: 18vh;
 }
 
@@ -342,43 +405,137 @@ body {
  * "lightning": [ 2 ]
  */
 .cloud.normal {
-    background-position: 0px 0vh;
+    background-position: 0px 0px;
     -webkit-animation: cloud-normal 1s steps(1,end);
+    -moz-animation: cloud-normal 1s steps(1,end);
+    -ms-animation: cloud-normal 1s steps(1,end);
+    -o-animation: cloud-normal 1s steps(1,end);
+    animation: cloud-normal 1s steps(1,end);
 }
 .cloud.overcast {
+    background-position: 0px -180px;
     background-position: 0px -18vh;
     -webkit-animation: cloud-overcast 1s steps(1,end);
+    -moz-animation: cloud-overcast 1s steps(1,end);
+    -ms-animation: cloud-overcast 1s steps(1,end);
+    -o-animation: cloud-overcast 1s steps(1,end);
+    animation: cloud-overcast 1s steps(1,end);
 }
 .cloud.raining {
+    background-position: 0px -540px;
     background-position: 0px -54vh;
     -webkit-animation: cloud-raining 375ms steps(3,end);
+    -moz-animation: cloud-raining 375ms steps(3,end);
+    -ms-animation: cloud-raining 375ms steps(3,end);
+    -o-animation: cloud-raining 375ms steps(3,end);
+    animation: cloud-raining 375ms steps(3,end);
 }
 .cloud.raining-light {
+    background-position: 0px -540px;
     background-position: 0px -54vh;
     -webkit-animation: cloud-raining 500ms steps(3,end);
+    -moz-animation: cloud-raining 500ms steps(3,end);
+    -ms-animation: cloud-raining 500ms steps(3,end);
+    -o-animation: cloud-raining 500ms steps(3,end);
+    animation: cloud-raining 500ms steps(3,end);
 }
 .cloud.raining-heavy {
-    background-position: 0px -54vh;
+    background-position: 0px -540px;
     -webkit-animation: cloud-raining 250ms steps(3,end);
+    -moz-animation: cloud-raining 250ms steps(3,end);
+    -ms-animation: cloud-raining 250ms steps(3,end);
+    -o-animation: cloud-raining 250ms steps(3,end);
+    animation: cloud-raining 250ms steps(3,end);
 }
 .cloud.lightning {
     -webkit-animation: cloud-lightning 333ms steps(2,end) 1;
+    -moz-animation: cloud-lightning 333ms steps(2,end) 1;
+    -ms-animation: cloud-lightning 333ms steps(2,end) 1;
+    -o-animation: cloud-lightning 333ms steps(2,end) 1;
+    animation: cloud-lightning 333ms steps(2,end) 1;
 }
 @-webkit-keyframes cloud-normal {
-    from { background-position: 0px 0vh; }
-    to { background-position: 0px -18vh; }
+    from { background-position: 0px 0px; background-position: 0px 0vh; }
+    to { background-position: 0px -180px; background-position: 0px -18vh; }
 }
+@-moz-keyframes cloud-normal {
+    from { background-position: 0px 0px; background-position: 0px 0vh; }
+    to { background-position: 0px -180px; background-position: 0px -18vh; }
+}
+@-ms-keyframes cloud-normal {
+    from { background-position: 0px 0px; background-position: 0px 0vh; }
+    to { background-position: 0px -180px; background-position: 0px -18vh; }
+}
+@-o-keyframes cloud-normal {
+    from { background-position: 0px 0px; background-position: 0px 0vh; }
+    to { background-position: 0px -180px; background-position: 0px -18vh; }
+}
+@keyframes cloud-normal {
+    from { background-position: 0px 0px; background-position: 0px 0vh; }
+    to { background-position: 0px -180px; background-position: 0px -18vh; }
+}
+
 @-webkit-keyframes cloud-overcast {
-    from { background-position: 0px -18vh; }
-    to { background-position: 0px -36vh; }
+    from { background-position: 0px -180px; background-position: 0px -18vh; }
+    to { background-position: 0px -360px; background-position: 0px -36vh; }
 }
+@-moz-keyframes cloud-overcast {
+    from { background-position: 0px -180px; background-position: 0px -18vh; }
+    to { background-position: 0px -360px; background-position: 0px -36vh; }
+}
+@-ms-keyframes cloud-overcast {
+    from { background-position: 0px -180px; background-position: 0px -18vh; }
+    to { background-position: 0px -360px; background-position: 0px -36vh; }
+}
+@-o-keyframes cloud-overcast {
+    from { background-position: 0px -180px; background-position: 0px -18vh; }
+    to { background-position: 0px -360px; background-position: 0px -36vh; }
+}
+@keyframes cloud-overcast {
+    from { background-position: 0px -180px; background-position: 0px -18vh; }
+    to { background-position: 0px -360px; background-position: 0px -36vh; }
+}
+
 @-webkit-keyframes cloud-raining {
-    from { background-position: 0px -54vh; }
-    to { background-position: 0px -108vh; }
+    from { background-position: 0px -540px; background-position: 0px -54vh; }
+    to { background-position: 0px -1080px; background-position: 0px -108vh; }
 }
+@-moz-keyframes cloud-raining {
+    from { background-position: 0px -540px; background-position: 0px -54vh; }
+    to { background-position: 0px -1080px; background-position: 0px -108vh; }
+}
+@-ms-keyframes cloud-raining {
+    from { background-position: 0px -540px; background-position: 0px -54vh; }
+    to { background-position: 0px -1080px; background-position: 0px -108vh; }
+}
+@-o-keyframes cloud-raining {
+    from { background-position: 0px -540px; background-position: 0px -54vh; }
+    to { background-position: 0px -1080px; background-position: 0px -108vh; }
+}
+@keyframes cloud-raining {
+    from { background-position: 0px -540px; background-position: 0px -54vh; }
+    to { background-position: 0px -1080px; background-position: 0px -108vh; }
+}
+
 @-webkit-keyframes cloud-lightning {
-    from { background-position: 0px -36vh; }
-    to { background-position: 0px -72vh; }
+    from { background-position: 0px -360px; background-position: 0px -36vh; }
+    to { background-position: 0px -720px; background-position: 0px -72vh; }
+}
+@-moz-keyframes cloud-lightning {
+    from { background-position: 0px -360px; background-position: 0px -36vh; }
+    to { background-position: 0px -720px; background-position: 0px -72vh; }
+}
+@-ms-keyframes cloud-lightning {
+    from { background-position: 0px -360px; background-position: 0px -36vh; }
+    to { background-position: 0px -720px; background-position: 0px -72vh; }
+}
+@-o-keyframes cloud-lightning {
+    from { background-position: 0px -360px; background-position: 0px -36vh; }
+    to { background-position: 0px -720px; background-position: 0px -72vh; }
+}
+@keyframes cloud-lightning {
+    from { background-position: 0px -360px; background-position: 0px -36vh; }
+    to { background-position: 0px -720px; background-position: 0px -72vh; }
 }
         </style>
     </head>
