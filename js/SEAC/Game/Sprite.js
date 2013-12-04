@@ -114,7 +114,7 @@
                             style.backgroundImage = conf.backgroundImage;
                             style.width = conf.width + 'px';
                             style.height = conf.height + 'px';
-                            v = animation + ' ' + delay + ' steps(' + steps + ') ' + ( data.loop == null ? 'infinite' : data.loop );
+                            v = animation + ' ' + delay + ' steps(' + steps + ') ' + ( data.reverse == 'true' ? 'reverse ' : ' ' ) + ( data.loop == null ? 'infinite' : data.loop );
                             style.webkitAnimation = v;
                             style.mozAnimation = v;
                             style.msAnimation = v;
