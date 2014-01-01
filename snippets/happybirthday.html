@@ -11,6 +11,7 @@ window.addEventListener( 'load', function ( ) {
         shadowClass = 'shadow',
         shapeCount = shapeClasses.length,
         backdrop = document.querySelector( '#backdrop' ),
+        present = document.querySelector( '#present' ),
         count = 10,
         body = document.body,
         bodyWidth = body.offsetWidth,
@@ -48,6 +49,7 @@ window.addEventListener( 'load', function ( ) {
         resize = function () {
             bodyWidth = body.offsetWidth;
             bodyHeight = body.offsetHeight;
+            present.style.left = ( bodyWidth / 2 ) + 'px';
 //            console.log( bodyWidth, bodyHeight );
         };
     
