@@ -1,0 +1,195 @@
+/* 
+    Document   : shapes
+    Created on : Jan 1, 2014, 2:27:42 PM
+    Author     : Erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.square {
+    width: 15px;
+    height: 15px;
+}
+
+.rectangle {
+    width: 20px;
+    height: 10px;
+}
+
+.trapezoid {
+    width: 10px;
+    height: 0;
+    border-bottom: 10px solid;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+    background-color: transparent !important;
+}
+
+.triangle {
+    width: 0; 
+    height: 0; 
+    border-bottom: 12px solid; 
+    border-left: 6px solid transparent !important; 
+    border-right: 6px solid transparent !important; 
+}
+
+.circle {
+    width: 16px;
+    height: 16px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.heart {
+    position: relative;
+    width: 15px;
+    height: 13.5px;
+    background-color: transparent !important;
+}
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 7.5px;
+    top: 0;
+    width: 7.5px;
+    height: 12px;
+    background: red;
+    -moz-border-radius: 7.5px 7.5px 0 0;
+    border-radius: 7.5px 7.5px 0 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin :100% 100%;
+}
+
+.infinity {
+    position: relative;
+    background-color: transparent !important;
+    width: 21.2px;
+    height: 10px;
+}
+
+.infinity:before,
+.infinity:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border: 2px solid red;
+    -moz-border-radius: 5px 5px 0 5px;
+    border-radius: 5px 5px 0 5px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.infinity:after {
+    left: auto;
+    right: 0;
+    -moz-border-radius: 5px 5px 5px 0;
+    border-radius: 5px 5px 5px 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.egg {
+    display:block;
+    width: 12.6px;
+    height: 18px;
+    background-color: red;
+    -webkit-border-radius: 6.3px 6.3px 6.3px 6.3px / 10.8px 10.8px 7.2px 7.2px;
+    border-radius:         50%  50%  50%  50%  / 60%   60%   40%  40%;
+}
+
+.pacman {
+    width: 0px;
+    height: 0px;
+    border-width: 10px;
+    border-style: solid;
+    background-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.burst-12 {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    text-align: center;
+}
+.burst-12:before, .burst-12:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background: inherit;
+}
+.burst-12:before {
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+}
+.burst-12:after {
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    -o-transform: rotate(60deg);
+}
+
+.burst-8 {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    text-align: center;
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -o-transform: rotate(20eg);
+}
+.burst-8:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background: inherit;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+}
+

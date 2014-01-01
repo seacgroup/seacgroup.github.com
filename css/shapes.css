@@ -1,0 +1,197 @@
+/* 
+    Document   : shapes
+    Created on : Jan 1, 2014, 2:27:42 PM
+    Author     : Erich
+    Description:
+        Purpose of the stylesheet follows.
+        Generate shapes-small.css using:
+            php -r "foreach ( file( 'shapes.css' ) as $line ) echo preg_replace_callback( '/(\d+)px/', function ( $m ) { return ( intval($m[1]) / 10 ) . 'px'; }, $line );" >shapes-small.css
+*/
+
+.square {
+    width: 100px;
+    height: 100px;
+}
+
+.rectangle {
+    width: 200px;
+    height: 100px;
+}
+
+.trapezoid {
+    width: 100px;
+    height: 0;
+    border-bottom: 100px solid;
+    border-left: 50px solid transparent !important;
+    border-right: 50px solid transparent !important;
+    background-color: transparent !important;
+}
+
+.triangle {
+    width: 0; 
+    height: 0; 
+    border-bottom: 120px solid; 
+    border-left: 60px solid transparent !important; 
+    border-right: 60px solid transparent !important; 
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+.heart {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    background-color: transparent !important;
+}
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: red;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+.heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin :100% 100%;
+}
+
+.infinity {
+    position: relative;
+    background-color: transparent !important;
+    width: 212px;
+    height: 100px;
+}
+
+.infinity:before,
+.infinity:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border: 20px solid red;
+    -moz-border-radius: 50px 50px 0 50px;
+    border-radius: 50px 50px 0 50px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.infinity:after {
+    left: auto;
+    right: 0;
+    -moz-border-radius: 50px 50px 50px 0;
+    border-radius: 50px 50px 50px 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.egg {
+    display:block;
+    width: 126px;
+    height: 180px;
+    background-color: red;
+    -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+    border-radius:         50%  50%  50%  50%  / 60%   60%   40%  40%;
+}
+
+.pacman {
+    width: 0px;
+    height: 0px;
+    border-width: 60px;
+    border-style: solid;
+    background-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    border-bottom-left-radius: 60px;
+    border-bottom-right-radius: 60px;
+}
+.burst-12 {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    text-align: center;
+}
+.burst-12:before, .burst-12:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+    width: 80px;
+    background: inherit;
+}
+.burst-12:before {
+    -webkit-transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+}
+.burst-12:after {
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    -o-transform: rotate(60deg);
+}
+
+.burst-8 {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    text-align: center;
+    -webkit-transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -o-transform: rotate(20eg);
+}
+.burst-8:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+    width: 80px;
+    background: inherit;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+}
+

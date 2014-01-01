@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Happy Birthday to Lia</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <base href=".." />
+        <link rel="stylesheet" type="text/css" href="css/shapes-small.css" />
+        <script type="text/javascript">
+window.addEventListener( 'load', function ( ) {
+    var shapeClasses = [ 'square', 'rectangle', 'trapezoid', 'circle', 'heart', 'infinity', 'egg', 'pacman', 'burst-12', 'burst-8' ],
+        shadowClass = 'shadow',
+        shapeCount = shapeClasses.length,
+        backdrop = document.querySelector( '#backdrop' ),
+        count = 10,
+        body = document.body,
+        bodyWidth = body.offsetWidth,
+        bodyHeight = body.offsetHeight,
+        audioPath = document.location.href.replace( /^(http:\/\/\w+(?:\.\w+)*(?::\d+)?\/(?:~\w+\/)?).+$/, '$1media/'),
+        appendShape = function ( container, shapeName, color, x, z ) {
+            var shape, shadow;
+            
+            ( shape = document.createElement( 'div' ) ).classList.add( shapeName );
+            shape.style.backgroundColor = color;
+            shape.style.borderColor = color;
+            
+            shape.style.left = x + 'px';
+            shape.style.zIndex = z;
+            container.appendChild( shape );
+            return shape;
+        },
+        adaptations = [
+            'transform'
+        ],
+        adaptSupport = [
+            '-moz-', '-webkit-', '-o-', '-ms-'
+        ],
+        adaptCount = adaptSupport.length,
+        transit = function ( shape, styles ) {
+            var style = shape.style,
+                k, v, i;
+            for ( k in styles ) {
+                style[k] = v = styles[k];
+                if ( adaptations.indexOf( k ) >= 0 )
+                    for ( i = 0; i < adaptCount; i++ )
+                        style[adaptSupport[i] + k] = v;
+            }
+        },
+        resize = function () {
+            bodyWidth = body.offsetWidth;
+            bodyHeight = body.offsetHeight;
+//            console.log( bodyWidth, bodyHeight );
+        };
+    
+    resize( );
+    window.addEventListener( 'resize', resize );
+    setInterval( function ( ) {
+        var shape = appendShape(
+                backdrop,
+                shapeClasses[shapeCount * Math.random() | 0],
+                '#' + ( 16 * Math.random() | 0 ).toString( 16 ) + ( 16 * Math.random() | 0 ).toString( 16 ) + ( 16 * Math.random() | 0 ).toString( 16 ),
+                bodyWidth * Math.random(),
+                480 * Math.random() | 0
+            ),
+            z = parseInt( shape.style.zIndex ),
+            dy = bodyHeight - 480 + z;
+        
+        shape.addEventListener( "transitionend", function ( ) {
+            if ( dy - shape.offsetTop <= 0 ) {
+//                console.log( 'removing ' + shape.className );
+                backdrop.removeChild( shape );
+            }
+        }, true );
+        setTimeout( function () {
+            transit( shape, { top: dy + 'px', transform: 'rotateZ(360deg)' } );
+        }, 100 );
+//        transit( shape, { transform: 'rotate(180deg)' } );
+    }, 100 );
+} );
+
+function OnAudio ( ) {
+//    console.log( arguments );
+}
+        </script>
+        <style type="text/css">
+root, body {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: firebrick;
+}
+
+h1 {
+    position: relative;
+    top: 30px;
+    font-family: fantasy;
+    font-size: 32pt;
+    color: hotpink;
+    z-index: 1000;
+}
+#background,
+#backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+}
+
+.square, .rectangle, .trapezoid, .circle, .heart, .infinity, .diamond, .egg, .pacman, .burst-12, .burst-8, .yin-yang {
+    position: absolute !important;
+    top: 0px;
+    transform-style: preserve-3d;
+    -moz-transition: all linear 3s;
+    -webkit-transition: all linear 3s; 
+    -ms-transition: all linear 3s;
+    -o-transition: all linear 3s;
+    transition: all linear 3s;
+}
+
+.shadow {
+    position: absolute;
+    display: inline-block;
+    width: 8px;
+    height: 4px;
+    background-color: darkslateblue;
+    border-radius: 50%;
+}
+
+@-webkit-keyframes happybirthday { from { background-position: 0px 0px; } to { background-position: -17280px 0px; } }
+@-moz-keyframes happybirthday { from { background-position: 0px 0px; } to { background-position: -17280px 0px; } }
+@-o-keyframes happybirthday { from { background-position: 0px 0px; } to { background-position: -17280px 0px; } }
+@-ms-keyframes happybirthday { from { background-position: 0px 0px; } to { background-position: -17280px 0px; } }
+@keyframes happybirthday { from { background-position: 0px 0px; } to { background-position: -17280px 0px; } }
+
+#present {
+    position: absolute;
+    display: inline-block;
+    width: 480px;
+    height: 480px;
+    bottom: 180px;
+    margin: -240px;
+    z-index: 240;
+    background-image: url(css/happybirthdaylia.png);
+    -webkit-animation: happybirthday 6s steps(36, end) infinite;
+    -moz-animation: happybirthday 6s steps(36, end) infinite;
+    -o-animation: happybirthday 6s steps(36, end) infinite;
+    -ms-animation: happybirthday 6s steps(36, end) infinite;
+    animation: happybirthday 6s steps(36, end) infinite;
+}
+
+        </style>
+    </head>
+    <body>
+        <div id="backdrop"></div>
+        <div id="background">
+            <h1>Happy Birthday Lia</h1>
+            <div id="present"></div>
+        </div>
+        <audio controls preload="auto" onerror="OnAudio()" oncanplay="OnAudio()" oncanplaythrough="OnAudio()" onloadeddata="OnAudio()" autoplay loop>
+            <source src="media/happybirthday.ogg" type="audio/ogg">
+            <source src="media/happybirthday.mp3" type="audio/mpeg">
+            <source src="media/happybirthday.wav" type="audio/wav">
+            sorry your device doesn't support this audio
+        </audio>
+    </body>
+</html>
