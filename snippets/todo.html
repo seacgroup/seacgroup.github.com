@@ -60,7 +60,7 @@ self.populate = ( function ( ) {
             for( k in talent )
                 report.push( { text: k, mandays: talent[k].mandays, completed: talent[k].completed } );
             report.push( { text: 'total', mandays: mandays, completed: completed } );
-            console.log( talent );
+//            console.log( talent );
             createList( report, document.querySelector( '#todo-totals' ) );
             return report;
         };
@@ -69,7 +69,7 @@ self.populate = ( function ( ) {
 } )();
 
 window.addEventListener( 'load', function () {
-    console.log( populate( [
+    ( populate( [
         { text: 'Backend common', sublist: [
             { text: 'cross app configuration', assigned: 'Erich', completed: 50, mandays: '1.0' },
             { text: 'secure database access', assigned: 'Erich', completed: 0, mandays: '1.0' },
