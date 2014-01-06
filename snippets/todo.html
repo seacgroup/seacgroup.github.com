@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO list</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+self.populate = ( function ( ) {
+    var talent = { '(none)': { mandays: 0, completed: 0 } },
+        mandays = 0, completed = 0,
+        createList = function ( data, parent ) {
+            var ol = document.createElement( 'ol' ),
+                md = 0, pc = 0,
+                li, tn, el, t;
+            data.forEach( function ( item ) {
+                ( li = document.createElement( 'li' ) ).appendChild( tn = document.createElement( 'div' ) );
+                tn.textContent = item.text;
+                if ( ( t = item.sublist ) )
+                    createList( t, li );
+                if ( ( t = item.mandays ) != null ) {
+                    ( el = document.createElement( 'div' ) ).textContent = t;
+                    el.className = 'mandays';
+                    li.insertBefore( el, tn );
+                    if ( ! isNaN( t = parseFloat( t ) ) )
+                        mandays += (md = t);
+                }
+                if ( ( t = item.completed ) != null ) {
+                    ( el = document.createElement( 'div' ) ).textContent = t;
+                    el.className = 'completed';
+                    li.insertBefore( el, tn );
+                    if ( ! isNaN( t = parseFloat( t ) ) )
+                        completed += (pc = md * t / 100);
+                }
+                if ( ( t = item.assigned ) != null ) {
+                    ( el = document.createElement( 'div' ) ).textContent = t;
+                    el.className = 'assigned';
+                    li.insertBefore( el, tn );
+                    if ( ! talent[t] )
+                        talent[t] = { mandays: 0, completed: 0 } ;
+                    talent[t].mandays += md;
+                    talent[t].completed += pc;
+                } else {
+                    talent['(none)'].mandays += md;
+                    talent['(none)'].completed += pc;
+                }
+                ol.appendChild( li );
+            } );
+            parent.appendChild( ol );
+        },
+        populate = function ( data, projectName ) {
+            talent = { '(none)': { mandays: 0, completed: 0 } };
+            mandays = completed = 0;
+            var reportElement, report = [], k, v;
+            createList( data, document.querySelector( '#todo-list' ) );
+            ( reportElement = document.createElement( 'div' ) ).textContent = projectName || 'project';
+            reportElement.id = 'project-name';
+            document.querySelector( '#heading' ).appendChild( reportElement );
+            ( reportElement = document.createElement( 'div' ) ).textContent = mandays + ' mandays / ' + (mandays / 5) + ' manweeks';
+            reportElement.id = 'report';
+            document.querySelector( '#heading' ).appendChild( reportElement );
+            for( k in talent )
+                report.push( { text: k, mandays: talent[k].mandays, completed: talent[k].completed } );
+            report.push( { text: 'total', mandays: mandays, completed: completed } );
+            console.log( talent );
+            createList( report, document.querySelector( '#todo-totals' ) );
+            return report;
+        };
+    
+    return populate;
+} )();
+
+window.addEventListener( 'load', function () {
+    console.log( populate( [
+        { text: 'Backend common', sublist: [
+            { text: 'cross app configuration', assigned: 'Erich', completed: 50, mandays: '1.0' },
+            { text: 'secure database access', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'secure session to app and device', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'redesign database with caching and DAO module (addresses future load problems)', assigned: 'Erich', completed: 0, mandays: '3.0' },
+            { text: 'add creation date, last login and login count for player accounts to detect stale accounts', assigned: 'Erich', completed: 0, mandays: '0.5' }
+        ] },
+        { text: 'Backend player', sublist: [
+            { text: 'clean up error messages', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'Input Sanitation', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'validate FB TOKEN before continue granting a session', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'hash password', assigned: 'Erich', completed: 0, mandays: '0.5' }
+        ] },
+        { text: 'Backend game(send)', sublist: [
+            { text: 'clean up error messages', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'Input Sanitation', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'proper authentication handling: device TOKEN', assigned: 'Erich', completed: 0, mandays: '1.0' }
+        ] },
+        { text: 'Backend session', sublist: [
+            { text: 'clean up error messages', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'Input Sanitation', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'proper authentication handling: device TOKEN', assigned: 'Erich', completed: 0, mandays: '1.0' }
+        ] },
+        { text: 'Client common', sublist: [
+        ] },
+        { text: 'Client coinstash', sublist: [
+            { text: 'Crashes if no data file exists. Bug in GGDATA?', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'stash is nil - probable Integrity Error', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'attempt to sync from server or Fail permanently', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'event listener line 19', assigned: 'Erich', completed: 0, mandays: '0.5' },
+            { text: 'event listener line 93', assigned: 'Erich', completed: 0, mandays: '0.5' }
+        ] },
+        { text: 'Client gameplay', sublist: [
+            { text: 'debug handling line 3374', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'login validation doesn\'t match all legal emails', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'CHANGE USER / LOGOUT / MAIN MENU BUTTON IN DISPLAY', assigned: 'Erich', completed: 0, mandays: '1.0' }
+        ] },
+        { text: 'Client background', sublist: [
+            { text: 'help screen', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'layer and alpha/opacity bugs in display', assigned: 'Erich', completed: 0, mandays: '1.0' },
+        ] },
+        { text: 'Client language', sublist: [
+            { text: 'help screen', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'Put paths in DATA config / payload file', assigned: 'Erich', completed: 0, mandays: '0.5' }
+        ] },
+        { text: 'Client ui', sublist: [
+            { text: 'handling null or empty text fields (this is also in many places in the code)', assigned: 'Erich', completed: 0, mandays: '1.0' }
+        ] },
+        { text: 'Features', sublist: [
+            { text: 'Feature list', assigned: 'Jonas & staff', completed: 0, mandays: '3.0' }
+        ] },
+        { text: 'localization', sublist: [
+            { text: 'spanish', assigned: '(none)', completed: 0, mandays: '3.0' },
+            { text: 'chinese', assigned: '(none)', completed: 0, mandays: '3.0' },
+            { text: 'japanese', assigned: '(none)', completed: 0, mandays: '3.0' }
+        ] },
+        { text: 'Artwork / Images', sublist: [
+        ] },
+        { text: 'admin interface', sublist: [
+            { text: 'analytics reporting', assigned: 'Erich', completed: 0, mandays: '3.0' },
+            { text: 'log analysis for tracking users, bugs, and usage', assigned: 'Erich', completed: 50, mandays: '1.0' },
+            { text: 'safe user data management', assigned: 'Erich', completed: 0, mandays: '1.0' },
+            { text: 'safe game data management', assigned: 'Erich', completed: 0, mandays: '1.0' }
+        ] }
+    ], 'Balified' ) )
+} );
+        </script>
+        <style type="text/css">
+            #heading {
+                text-align: center;
+            }
+            #project-name {
+                position: absolute;
+                display: inline-block;
+                left: 30px;
+            }
+            #report {
+                position: absolute;
+                display: inline-block;
+                right: 30px;
+            }
+            li#todo-totals li:last-child:before,
+            li#todo-totals:before {
+                display: none;
+            }
+            .todo>ol {
+                margin-left: -24px;
+            }
+            .todo>ol>li {
+                min-height: 200px;
+            }
+            .todo>ol>li:before {
+                background: #CFEB87;
+            }
+            .todo>ol>li>div:first-child {
+                position: absolute;
+                display: inline-block;
+                text-align: center;
+                font-size: 14pt;
+                font-weight: bold;
+                width: 200px;
+                height: 20px;
+                line-height: 100%;
+                top: 50%;
+                -webkit-transform: translateX(-100px) translateY(-7pt) rotate(-90deg);
+                -moz-transform: translateX(-100px) translateY(-7pt) rotate(-90deg);
+                -o-transform: translateX(-100px) translateY(-7pt) rotate(-90deg);
+                -ms-transform: translateX(-100px) translateY(-7pt) rotate(-90deg);
+                transform: translateX(-100px) translateY(-7pt) rotate(-90deg);
+                z-index: 10;
+                overflow: visible;
+                white-space: nowrap;
+                /*    background: antiquewhite; */
+            }
+            .todo>ol>li:hover:before{
+                -webkit-transform: rotate(0deg);	
+                -moz-transform: rotate(0deg);	
+                -o-transform: rotate(0deg);	
+                -ms-transform: rotate(0deg);	
+                transform: rotate(0deg);	
+            }
+            /*
+            #todo-list>ol>li>div::after {
+                content: '+';
+                position: absolute;
+                z-index: 20;
+                color: #00F;
+                left: 50%;
+            }
+            */
+            ol li{
+                position: relative;
+                display: block;
+                padding: .4em .4em .4em 2em;
+                *padding: .4em;
+                margin: .5em 0;
+                background: #ddd;
+                color: #444;
+                text-decoration: none;
+                border-radius: .3em;
+                transition: all .3s ease-out;	
+            }
+            ol>li>.assigned,
+            ol>li>.mandays,
+            ol>li>.completed {
+                display: inline-block;
+                width: 80px;
+                margin-right: 20px;
+                float: right;
+                -webkit-transition: all .3s ease-out;
+                -moz-transition: all .3s ease-out;
+                -o-transition: all .3s ease-out;
+                -ms-transition: all .3s ease-out;
+                transition: all .3s ease-out;
+            }
+            ol>li>.assigned {
+                text-align: left;
+            }
+            ol>li>.mandays,
+            ol>li>.completed {
+                text-align: right;
+            }
+            ol>li>.assigned:before,
+            ol>li>.mandays:before,
+            ol>li>.completed:before {
+                position: absolute;
+                overflow: hidden;
+                white-space: nowrap;
+                z-index: 50;
+                margin-top: inherit;
+                opacity: 0.0;
+            }
+            ol>li>.assigned:hover {
+                margin-top: 9px;
+            }
+            ol>li>.mandays:hover,
+            ol>li>.completed:hover {
+                margin-top: -9px;
+            }
+            ol>li>.assigned:hover:before {
+                margin-top: -18px;
+                opacity: 1.0;
+            }
+            ol>li>.mandays:hover:before,
+            ol>li>.completed:hover:before {
+                margin-top: 18px;
+                opacity: 1.0;
+            }
+            ol>li>.assigned:before {
+                content: 'assigned to';
+            }
+            ol>li>.mandays:before {
+                content: 'to complete';
+            }
+            ol>li>.mandays:after {
+                content: '\00a0\0064\0061\0079\0073';
+            }
+            ol>li>.completed:before {
+                content: 'complete';
+            }
+            ol>li>.completed:after {
+                content: '%';
+            }
+
+            ol li:first-child {
+                counter-reset: li;
+            }
+            ol li:hover{
+                background: #eee;
+            }
+
+            ol li:hover:before{
+                -webkit-transform: rotate(360deg);	
+                -moz-transform: rotate(360deg);	
+                -o-transform: rotate(360deg);	
+                -ms-transform: rotate(360deg);	
+                transform: rotate(360deg);	
+            }
+
+            ol li:before{
+                content: counter(li);
+                counter-increment: li;
+                position: absolute;	
+                left: -1.3em;
+                top: 50%;
+                margin-top: -1.3em;
+                background: #87ceeb;
+                height: 2em;
+                width: 2em;
+                line-height: 2em;
+                border: .3em solid #fff;
+                text-align: center;
+                font-weight: bold;
+                border-radius: 2em;
+                -webkit-transition: all .3s ease-out;
+                -moz-transition: all .3s ease-out;
+                -o-transition: all .3s ease-out;
+                -ms-transition: all .3s ease-out;
+                transition: all .3s ease-out;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="heading">TODO list</div>
+        <div id="todo-list" class="todo"></div>
+        <div class="todo"><ol><li id="todo-totals"><div>Totals</div></li></ol></div>
+        
+
+    </body>
+</html>
