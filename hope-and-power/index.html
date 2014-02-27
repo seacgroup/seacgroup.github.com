@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <META name="robots" content="index,follow">
+    <title>Hope and Power</title>
+    <meta name="author" content="Erich Horn" />
+    <meta name="description" content="Inspirational message of hope and personal power">
+    <meta name="keywords" content="inspirational,message,hope,personal,power,self,help,meditation,healing">
+    <script type="text/javascript">
+window.addEventListener( 'load', function ( ) {
+    var image = document.querySelector( '#img-message' ),
+        origImageSrc = image.src,
+        imageSizes = {
+            'hope-and-power-1024x.gif':     { width: 1024, height: 1024 },
+            'hope-and-power-640x.gif':      { width: 640, height: 640 },
+            'hope-and-power-480x.gif':      { width: 480, height: 480 },
+            'hope-and-power-320x.gif':      { width: 320, height: 320 },
+            'hope-and-power-160x.gif':      { width: 160, height: 160 }
+        },
+        resize = function ( ) {
+            var size = Math.min( window.innerWidth, window.innerHeight ), 
+                s, i;
+            (s = image.style).height = (s.width = size + 'px');
+            for ( i in imageSizes ) {
+                if ( (s = imageSizes[i]).width <= size && s.height <= size ) {
+                    image.src = i;
+                    return;
+                }
+            }
+            image.src = origImageSrc;
+        };
+    window.addEventListener( 'resize', resize );
+    resize();
+    
+}, false );
+    </script>
+    <style type="text/css">
+root, html, body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none 0px;
+    background-color: black;
+}
+.img-cntnr {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.img-cntnr>img {
+    border: none 0px;
+    position: absolute;
+    vertical-align: middle;
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+    width: 100%;
+    width: 100vmin;
+    height: 100vmin;
+}
+    </style>
+
+  </head>
+  <body><div class="img-cntnr"><img id="img-message" src="hope-and-power-160x.gif" loop="infinite"></div></body>
+</html>
+
