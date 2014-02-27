@@ -11,10 +11,23 @@
     <script type="text/javascript">
 window.addEventListener( 'load', function ( ) {
     var img = document.querySelector( '#img-message' ),
-        size, imgStyles
+        imageSizes = {
+            'hope-and-power-640x.gif':  { width: 640, height: 640 },
+            'hope-and-power.gif':       { width: 320, height: 320 }
+        },
         resize = function ( ) {
-            (imgStyles = img.style).width = (size = Math.min( window.innerWidth, window.innerHeight )) + 'px';
-            imgStyles.height = size + 'px';
+            var size = Math.min( window.innerWidth, window.innerHeight ), 
+                pixels = size + 'px',
+                s = img.style, i,
+                s.width = pixels,
+                s.height = pixels;
+            for ( i in imageSizes ) {
+                if ( (s = imageSizes[i]).width <= size && s.height <= size ) {
+                    img.src = i;
+                    break;
+                }
+            }
+            
         };
     window.addEventListener( 'resize', resize );
     resize();
@@ -53,6 +66,6 @@ root, html, body {
     </style>
 
   </head>
-  <body><div class="img-cntnr"><img id="img-message" src="http://seacgroup.github.io/hope-and-power.gif" loop="infinite"></div></body>
+  <body><div class="img-cntnr"><img id="img-message" src="hope-and-power.gif" loop="infinite"></div></body>
 </html>
 
