@@ -13,6 +13,30 @@ convert hope-and-power-1024x.jpg  -bordercolor black -border 0 ( -clone 0 -resiz
     <meta name="description" content="Inspirational message of hope and personal power">
     <meta name="keywords" content="inspirational,message,hope,personal,power,self,help,meditation,healing">
     <script type="text/javascript">
+if ( ! window.addEventListener ) {
+    window.addEventListener = window.attachEvent
+            ? function ( type, callback, bubble ) { window.attachEvent('on' + type.toLowerCase(), callback ) }
+            : (function ( ) {
+                var callbackTypesList = {},
+                    i = 'on' + type.toLowerCase(),
+                    makeEvent = function ( callbackList ) {
+                        return function ( evt ) {
+                            for (var i in callbackList )
+                                callbackList[i](evt);
+                        }
+                    },
+                    callbackList, t;
+                return function ( type, callback, bubble ) {
+                    if ( ! (callbackList = callbackTypesList[type]) ) {
+                        callbackList = (callbackTypesList[type] = []);
+                        if ( ( t = window[i] ) )
+                            callbackList.push( t );
+                        window[i] = makeEvent( callbackList )
+                    }
+                    callbackList.push( callback );
+                }
+            })( );
+};
 window.addEventListener( 'load', function ( ) {
     var image = document.querySelector( '#img-message' ),
         origImageSrc = image.src,

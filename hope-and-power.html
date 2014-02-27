@@ -9,11 +9,11 @@
     <meta name="description" content="Inspirational message of hope and personal power">
     <meta name="keywords" content="inspirational,message,hope,personal,power,self,help,meditation,healing">
     <script type="text/javascript">
-window.addEventListener( 'load', function ( ) {
-    var link = document.querySelector( '#new-loc' );
+function init() {
+    var link = document.getElementById( 'new-loc' );
     link.textContent = link.href;
-}, false );
-window.location = 'hope-and-power';
+    window.location = 'hope-and-power';
+}
     </script>
     <style type="text/css">
 root, html {
@@ -36,7 +36,7 @@ a, :active, :visited, :focus {
 }
     </style>
   </head>
-  <body>
+  <body onload="init()">
     <div><img id="img-message" src="hope-and-power/hope-and-power-160x.gif" loop="infinite"></div>
     <p>This&nbsp;page has&nbsp;moved&nbsp;to "<a id='new-loc' href='hope-and-power'>hope-and-power</a>"</p>
   </body>
