@@ -9,16 +9,39 @@
     <meta name="description" content="Inspirational message of hope and personal power">
     <meta name="keywords" content="inspirational,message,hope,personal,power,self,help,meditation,healing">
     <style type="text/css">
-root, html, body, img {
+root, html, body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     border: none 0px;
+    background-color: black;
+}
+.img-cntnr {
     position: absolute;
     width: 100%;
+    height: 100%;
+    text-align: center;
+    top: 50vmin;
+    margin-top: -50vmin;
+}
+.img-cntnr>img {
+    border: none 0px;
+    position: absolute;
+    vertical-align: middle;
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+    width: 100%;
+    width: 100vmin;
+    height: 100vmin;
 }
     </style>
 
   </head>
-  <body><img src="http://seacgroup.github.io/hope-and-power.gif" loop="infinite"></body>
+  <body><div class="img-cntnr"><img src="http://seacgroup.github.io/hope-and-power.gif" loop="infinite"></div></body>
 </html>
 
