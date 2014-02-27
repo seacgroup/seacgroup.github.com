@@ -38,7 +38,7 @@ if ( ! window.addEventListener ) {
             })( );
 };
 window.addEventListener( 'load', function ( ) {
-    var image = document.querySelector( '#img-message' ),
+    var image = document.getElementById( 'img-message' ),
         origImageSrc = image.src,
         imageSizes = {
             'hope-and-power-1024x.gif':     { width: 1024, height: 1024 },
@@ -48,7 +48,7 @@ window.addEventListener( 'load', function ( ) {
             'hope-and-power-160x.gif':      { width: 160, height: 160 }
         },
         resize = function ( ) {
-            var size = Math.min( window.innerWidth, window.innerHeight ), 
+            var size = Math.min( window.innerWidth || document.body.clientWidth, window.innerHeight || document.body.clientHeight ), 
                 s, i;
             (s = image.style).height = (s.width = size + 'px');
             for ( i in imageSizes ) {
