@@ -1,0 +1,35 @@
+<html>
+<head>
+  <style>
+root, html, body {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+header .menu-item {
+  display: inline-block;
+  cursor: pointer;
+}
+#game {
+  width: 640px;
+  height: 480px;
+}
+  </style>
+  <script>
+window.addEventListener( 'load', function ( ) {
+  Array.prototype.forEach.call( document.querySelectorAll( 'header .menu-item' ), function ( btn ) {
+    self.addEventListener( 'click', function () {
+      document.querySelector( '#game' ).src=btn.id
+    }, false )
+  } )
+} )
+  </script>
+</head>
+<body>
+  <header>
+    <button id="play" class="menu-item">play</button> &nbsp; <button id="walls" class="menu-item">walls</button> &nbsp;
+  </header>
+  <iframe id="game" src="play"></iframe>
+</body>
+</html>

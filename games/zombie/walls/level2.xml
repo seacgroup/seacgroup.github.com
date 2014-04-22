@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<Level title="Level one" width="20" height="20">
+  <Description>
+  Enter the first level.
+  </Description>
+  <Objects>
+    <Piece type="Walls" width="19" height="1">WallStone1</Piece>
+    <Piece type="Walls" width="2" height="19">WallStone1</Piece>
+    <Piece type="Skip" width="0" height="18"></Piece>
+    <Piece type="Walls" width="19" height="1">WallStone1</Piece>
+  </Objects>
+</Level>
+
